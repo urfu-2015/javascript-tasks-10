@@ -1,1 +1,55 @@
+body
+{
+    display: flex;
+    flex-direction: column;
+    font-size: 30px;
+    background-color: rgba(75, 75, 75, 0.8);
+}
 
+input
+{
+    background-color: rgba(86, 86, 86, 0.8);
+    font-size: 30px;
+}
+
+.header
+{
+    display: flex;
+    justify-content: space-around;
+}
+
+.header div
+{
+    display: inline-block;
+}
+
+.elements,
+.cauldron
+{
+    width: 40%;
+    border: 2px solid black;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 10px;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.desc
+{
+    display: flex;
+    justify-content: center;
+}
+
+div[data-element],
+.header div div
+{
+    border: 1px solid black;
+    margin: 5px;
+    width: auto;
+    background-color: rgba(35, 35, 35, 0.8);
+    border-radius: 10px;
+    color: #fff;
+}
