@@ -4,27 +4,25 @@
         <meta charset="utf-8">
         <title>Котёл алхимика</title>
         <link rel="stylesheet" href="index.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300&subset=latin,cyrillic" 
+        rel="stylesheet" type="text/css">
     </head>
     <body>
-        <!-- Пример вёрстки котла для экспериментов-->
         <table>
             <thead>
                 <tr>
                     <th>
-                        <!-- Поле для фильтрации алхимических элементов -->
-                        <input>
+                        <input type="text">
                     </th>
                     <th>
-                        <!-- Результат смешивания в котле – новый элемент -->
-                        <span>Пар</span>
+                        <span id="result">огненная вода</span>
                     </th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>
-                        <!-- Список доступных элементов (два мы уже положили в котёл)-->
-                        <ul>
+                        <ul id="elements">
                             <li data-element="earth">земля</li>
                             <li data-element="air">воздух</li>
                             <li data-element="dust">пыль</li>
@@ -37,8 +35,11 @@
                         </ul>
                     </td>
                     <td>
-                        <!-- Элементы в котле для смешивания -->
-                        <ul>
+                        <img id="cauldron"
+                        src="http://img-fotki.yandex.ru/get/9068/112424586.801/0_c7e0b_45d741a3_L.png">
+                    </td>
+                    <td>
+                        <ul id="boiler">
                             <li data-element="fire">огонь</li>
                             <li data-element="water">вода</li>
                         </ul>
