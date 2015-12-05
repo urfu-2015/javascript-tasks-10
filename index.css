@@ -1,1 +1,41 @@
-
+body
+{
+    background: url(http://fps-creator.ucoz.ru/_ph/1/937694226.jpg);
+    text-align: center;   
+}
+ul
+{
+    font: 30px 'Open Sans', sans-serif;
+    min-height: 460px;
+    width: 200px;
+    background-color: rgba(255, 255, 255, .7);
+    font-weight: bold;
+    padding: 20px;
+    border: 50px solid transparent;
+    border-image: url(http://img-fotki.yandex.ru/get/6521/16969765.97/0_6a7d7_e052add_L.png) 100 100 round;
+}
+li
+{
+    list-style-type: none;
+}
+input
+{
+    width: 335px;
+    height: 60px;
+    font: 30px 'Open Sans', sans-serif;    
+    text-align: center;
+}
+table
+{
+    margin: 50px auto;
+}
+tr > td:nth-child(2)
+{
+    width: 600px;
+}
+#result
+{
+    color: #fff;
+    font: 40px 'Open Sans', sans-serif;
+    font-weight: bold;
+}
