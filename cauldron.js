@@ -65,6 +65,7 @@ for (var i = 0; i < ingredientsLi.length; i++) {
 function DragAndDrop(e) {
     var item = this;
     item.style.position = 'absolute';
+    item.style.margin = '0';
     moveAt(e);
     function moveAt(e) {
         item.style.left = e.pageX - item.offsetWidth / 2 + 'px';
