@@ -4,6 +4,10 @@
 var formulas = window.formulas;
 var cauldron = document.getElementById('cauldron');
 var components = document.getElementById('components');
+var filter = document.getElementById('filter');
+
+filter.onkeyup = filterElements;
+filter.onclick = checkClearFilter;
 
 Array.prototype.forEach.call(components.children, function (child) {
     child.onclick = moveToCauldron.bind(child);
@@ -54,7 +58,6 @@ function checkFormulas(elementsInCauldron) {
 }
 
 function filterElements() {
-    var filter = document.getElementById('filter');
     var value = filter.value;
     Array.prototype.forEach.call(components.children, function (filter) {
         var startIndex = filter.innerText.indexOf(value);
@@ -80,8 +83,10 @@ function highlight(element, length, startIndex) {
     }
 }
 
-function clearFilter() {
-    var filter = document.getElementById('filter');
-    filter.value = '';
-    filterElements(filter);
+function checkClearFilter() {
+    setTimeout(function () {
+        if (filter.value === '') {
+            filterElements();
+        }
+    }, 100);
 }

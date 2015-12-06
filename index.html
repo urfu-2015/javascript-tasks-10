@@ -12,10 +12,7 @@
                 <tr>
                     <th>
                         <!-- Поле для фильтрации алхимических элементов -->
-                        <input id="filter" onkeyup="filterElements()">
-                        <img src="http://www.pubzi.com/f/lg-Cross-icon.png"
-                            alt="clear filter"
-                            onclick="clearFilter()">
+                        <input id="filter" type="search" placeholder="Поиск по элементам">
                     </th>
                     <th>
                         <!-- Результат смешивания в котле – новый элемент -->
@@ -28,7 +25,7 @@
                     <td>
                         <!-- Список доступных элементов (два мы уже положили в котёл)-->
                         <ul id="components">
-                            <li data-element="earth" onclick="moveToCauldron(this)">земля</li>
+                            <li data-element="earth">земля</li>
                             <li data-element="air">воздух</li>
                             <li data-element="dust">пыль</li>
                             <li data-element="swamp">болото</li>
