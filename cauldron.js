@@ -55,6 +55,7 @@ document.getElementById('remove').onclick = function () {
     document.querySelector('#used-ingredients').innerHTML = '';
     usedIngredients = {};
     filterIngredients(document.getElementById('filter').value);
+    createNewElement();
 }
 var ingredientsLi = document.querySelectorAll('.cauldron div,.box div');
 for (var i = 0; i < ingredientsLi.length; i++) {
