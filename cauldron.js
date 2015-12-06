@@ -10,16 +10,16 @@ var elements = getByClass('elements');
 var cauldronResult = getByClass('result');
 var filter = getByClass('filter');
 
-getResult();
-sortFormulas();
+renderResult();
+formulas = sortFormulasByLength(formulas);
 
 elements.addEventListener('click', moveToCauldron);
 cauldron.addEventListener('click', moveBack);
 filter.addEventListener('input', filterElements);
 
 
-function sortFormulas() {
-    formulas = formulas.sort(function (elem1, elem2) {
+function sortFormulasByLength(formulas) {
+    return formulas.sort(function (elem1, elem2) {
         return (elem1.elements.length > elem2.elements.length) ? 1 : -1
     });
 }
@@ -37,36 +37,33 @@ function moveBack(e) {
 }
 
 function move(element, from, to) {
-    if (element.parentNode.hasAttribute('data-element')) {
-        element = element.parentNode;
-        filterElements();
-    }
     if (!element.hasAttribute('data-element')) {
-        return;
-    }
+        if (element.parentNode.hasAttribute('data-element')) {
+            element = element.parentNode;
+            filterElements();
+        } else {
+            return;
+        }    }
     from.removeChild(element);
     to.appendChild(element);
-    getResult();
+    renderResult();
+    filterElements();
 }
 
-function getResult() {
+function renderResult() {
     var elementsInCauldron = [];
     for (var i = 0; i < cauldron.children.length; i++) {
         var node = cauldron.children[i];
         elementsInCauldron.push(node.getAttribute('data-element'));
     }
-    var result = checkFormula(elementsInCauldron);
-    cauldronResult.textContent = result ? result : '-';
+    var result = getResult(elementsInCauldron);
+    cauldronResult.textContent = result || '-';
 }
 
-function checkFormula(elements) {
-    var result;
-    var resultElements;
+function getResult(elements) {
     for (var i = 0; i < formulas.length; i++) {
         if (isArrayContains(elements, formulas[i].elements)) {
-            resultElements = formulas[i].elements;
-            result = formulas[i].result;
-            return result;
+            return formulas[i].result;
         }
     }
 }
@@ -84,8 +81,8 @@ function isArrayContains(arr1, arr2) {
 }
 
 function filterElements(e) {
-    if (filter.value.length > 0) {
-        for (var i = 0; i < elements.children.length; i++) {
+    for (var i = 0; i < elements.children.length; i++) {
+        if (filter.value.length > 0) {
             var node = elements.children[i];
             if (node.textContent.indexOf(filter.value) === -1) {
                 hide(node);
@@ -93,9 +90,7 @@ function filterElements(e) {
                 show(node);
                 markText(node, filter.value);
             }
-        }
-    } else {
-        for (i = 0; i < elements.children.length; i++) {
+        } else {
             node = elements.children[i];
             show(node);
             unmarkText(node);
@@ -112,7 +107,7 @@ function show(node) {
 }
 
 function markText(node, text) {
-    node.innerHTML = node.innerHTML.replace(text, '<span>' + text + '</span>');
+    node.innerHTML = node.textContent.replace(text, '<span>' + text + '</span>');
 }
 
 function unmarkText(node) {

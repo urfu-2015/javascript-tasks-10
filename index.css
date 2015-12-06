@@ -54,7 +54,7 @@ div[data-element],
     color: #fff;
 }
 
-.elements div[data-element] span:first-child
+.elements div[data-element] span
 {
     color: #f00;
 }
