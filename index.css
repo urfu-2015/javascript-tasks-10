@@ -1,1 +1,11 @@
+img
+{
+    height: 10px;
+    width: 10px;
+    margin-left: -20px;
+}
 
+.highlight
+{
+    background: #ff0;
+}
