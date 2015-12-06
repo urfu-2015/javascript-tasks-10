@@ -1,1 +1,80 @@
+body
+{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
 
+.off-filter,
+.remove
+{
+    height: 30px;
+    width: 30px;
+    margin-left: 10px;
+}
+
+.off-filter img,
+.remove img
+{
+    width: 100%;
+}
+
+.red-text
+{
+    color: #f00;
+    font-weight: bold;
+}
+
+.result
+{
+    font-size: 1.4em;
+    padding: 10px;
+    flex-grow: 2;
+}
+
+.box div,
+.cauldron div 
+{
+    display: flex;
+    align-items: center;
+    height: 40px;
+    background-color: rgba(181, 181, 179, .4);
+    border: 1px solid #eee;
+    margin: 5px;
+    padding: 5px;
+    font-size: 1.2em;
+}
+
+.box div:hover,
+.cauldron div:hover
+{
+    background-color: rgba(235, 96, 94, .4);
+}
+
+.left-part,
+.right-part
+{
+    display: flex;
+    width: 400px;
+    flex-wrap: wrap;
+    margin: 10px 50px;
+}
+
+.box
+{
+    display: flex;
+    width: 100%;
+    height: 300px;
+    flex-wrap: wrap;
+    align-content: space-around;
+}
+
+.cauldron
+{
+    display: flex;
+    background-color: #aca;
+    width: 100%;
+    min-height: 300px;
+    flex-wrap: wrap;
+    align-content: space-around;
+}
