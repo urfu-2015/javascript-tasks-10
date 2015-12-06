@@ -20,7 +20,7 @@ filter.addEventListener('input', filterElements);
 
 function sortFormulasByLength(formulas) {
     return formulas.sort(function (elem1, elem2) {
-        return (elem1.elements.length > elem2.elements.length) ? 1 : -1
+        return elem1.elements.length - elem2.elements.length;
     });
 }
 
@@ -40,10 +40,10 @@ function move(element, from, to) {
     if (!element.hasAttribute('data-element')) {
         if (element.parentNode.hasAttribute('data-element')) {
             element = element.parentNode;
-            filterElements();
         } else {
             return;
-        }    }
+        }
+    }
     from.removeChild(element);
     to.appendChild(element);
     renderResult();
