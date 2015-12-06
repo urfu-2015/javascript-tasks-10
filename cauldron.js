@@ -98,7 +98,7 @@ function filterElements(e) {
         for (i = 0; i < elements.children.length; i++) {
             node = elements.children[i];
             show(node);
-            unmarkText(node)
+            unmarkText(node);
         }
     }
 }
@@ -112,8 +112,7 @@ function show(node) {
 }
 
 function markText(node, text) {
-    node.innerHTML = node.innerHTML.replace(text, '<span>' + text + '</span>')
-    alert(text + ' ' + node.innerHTML)
+    node.innerHTML = node.innerHTML.replace(text, '<span>' + text + '</span>');
 }
 
 function unmarkText(node) {
