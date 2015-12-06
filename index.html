@@ -6,16 +6,11 @@
         <link rel="stylesheet" href="index.css">
     </head>
     <body>
-        <div class="header">
-            <label for="filter">
-                <input type="text" id="filter" oninput="filterElements(event)">
-                <label>
-                    <input type="button" value="X" id="reset" onclick="resetFilter(event)">
-                </label>
-            </label>
-            <div>Результат:<div id="result">Пар</div></div>
-        </div>
-        <div class="desc">
+        <header>
+            <input type="search" class="filter">
+            <div>Результат: <div class="result">-</div></div>
+        </header>
+        <main>
             <div class="elements">
                 <div data-element="earth">земля</div>
                 <div data-element="air">воздух</div>
@@ -31,7 +26,7 @@
             </div>
             <div class="cauldron">
             </div>
-        </div>
+        </main>
         <div id="textplace"></div>
         <script src="formulas.js"></script>
         <script src="cauldron.js"></script>

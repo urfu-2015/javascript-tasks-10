@@ -12,13 +12,13 @@ input
     font-size: 30px;
 }
 
-.header
+header
 {
     display: flex;
     justify-content: space-around;
 }
 
-.header div
+header div
 {
     display: inline-block;
 }
@@ -37,14 +37,14 @@ input
     background-color: rgba(255, 255, 255, .8);
 }
 
-.desc
+main
 {
     display: flex;
     justify-content: center;
 }
 
 div[data-element],
-.header div div
+#result
 {
     border: 1px solid black;
     margin: 5px;
@@ -52,4 +52,9 @@ div[data-element],
     background-color: rgba(35, 35, 35, .8);
     border-radius: 10px;
     color: #fff;
+}
+
+.elements div[data-element] span:first-child
+{
+    color: #f00;
 }
