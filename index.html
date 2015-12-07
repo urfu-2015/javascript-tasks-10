@@ -12,20 +12,22 @@
                 <tr>
                     <th>
                         <!-- Поле для фильтрации алхимических элементов -->
-                        <input>
+                        <input type="search" id="filter">
                     </th>
                     <th>
                         <!-- Результат смешивания в котле – новый элемент -->
-                        <span>Пар</span>
+                        <span id="result">Пар</span>
                     </th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>
+
                         <!-- Список доступных элементов (два мы уже положили в котёл)-->
-                        <ul>
-                            <li data-element="earth">земля</li>
+                        <ul id="left">
+                            <li data-element="earth" >земля</li>
                             <li data-element="air">воздух</li>
                             <li data-element="dust">пыль</li>
                             <li data-element="swamp">болото</li>
@@ -37,8 +39,11 @@
                         </ul>
                     </td>
                     <td>
+                        <img src="http://static.diary.ru/userdir/4/8/7/2/487256/39419587.png">
+                    </td>
+                    <td>
                         <!-- Элементы в котле для смешивания -->
-                        <ul>
+                        <ul id="right">
                             <li data-element="fire">огонь</li>
                             <li data-element="water">вода</li>
                         </ul>
