@@ -21,13 +21,20 @@ function dragOver(ev) {
 function dragDrop(ev) {
     var data = ev.dataTransfer.getData('Text');
     if (ev.target.getAttribute('id') === 'boiler' ||
-        ev.target.getAttribute('id') === 'cauldron') {
+        ev.target.getAttribute('id') === 'cauldron' ||
+        ev.target.parentNode.getAttribute('id') === 'boiler') {
         var boilerList = document.getElementById('boiler');
-        boilerList.appendChild(document.getElementById(data));
+        var newChild = document.getElementById(data);
+        boilerList.appendChild(newChild);
+        for (var i = 0; i < newChild.children.length; i++) {
+            newChild.children[i].style.color = "#000";
+        }
     }
-    if (ev.target.getAttribute('id') === 'elements') {
+    if (ev.target.getAttribute('id') === 'elements' ||
+        ev.target.parentNode.getAttribute('id') === 'elements') {
         var elementsList = document.getElementById('elements');
         elementsList.appendChild(document.getElementById(data));
+        FindWords();
     }
     ev.stopPropagation();
     createSmth();
@@ -35,8 +42,8 @@ function dragDrop(ev) {
 }
 
 function createSmth() {
-    var lisInB = document.querySelectorAll('#boiler > li');
-    var inBoiler = [].map.call(lisInB, function (li) {
+    var items = document.querySelectorAll('#boiler > li');
+    var inBoiler = [].map.call(items, function (li) {
         return li.dataset.element;
     });
     var i = formulas.length - 1;
@@ -47,11 +54,12 @@ function createSmth() {
         /*res = res && inBoiler.every(function (element) {
             return formulas[i].elements.indexOf(element) != -1;
         });*/
+        var resultText = document.getElementById('result').innerText;
         if (res) {
-            document.getElementById('result').innerText = formulas[i].result;
+            resultText = formulas[i].result;
             break;
         } else {
-            document.getElementById('result').innerText = '';
+            result.innerText = '';
         }
         i--;
     }
@@ -77,8 +85,9 @@ var lis = document.querySelectorAll('li');
 });
 
 var input = document.querySelector('input');
-input.oninput = function() {
-    var lis = document.querySelectorAll('#elements > li');
+input.oninput = FindWords;
+function FindWords() {
+    var lis = document.querySelectorAll('#elements li');
     [].forEach.call(lis, function(li) {
         var word = input.value.toLowerCase();
         var index = li.innerText.indexOf(word);
@@ -103,10 +112,25 @@ input.oninput = function() {
             }
         } else {
             li.style.display = 'block';
-            var spans = document.querySelectorAll('li > span');
+            var spans = document.querySelectorAll('li span');
             [].forEach.call(spans, function (span) {
                 span.style.color = '#000';
             });
         }
     });
 };
+
+document.getElementById('close').onclick = function () {
+    input.value = '';
+    FindWords();
+}
+
+document.getElementById('out').onclick = ClearInput;
+function ClearInput() {
+    var elementsList = document.getElementById('elements');
+    var boilerList = document.getElementById('boiler');
+    while (boilerList.children.length > 0) {
+        elementsList.appendChild(boilerList.children[0]);
+        FindWords();
+    }
+}
