@@ -14,9 +14,9 @@
     cursor: pointer;
 }
 
-.lol
+.highlight
 {
-    border: 1px solid red;
+    color: #0b97c4;
 }
 
 ul
@@ -68,38 +68,40 @@ img.cauldron
 
 .scale /*TODO*/
 {
-    animation: light 3s 1 linear;
+    animation: light 1s 1 linear;
 }
 
 @keyframes light
 {
     0%
     {
-        /*text-shadow: none;*/
         transform: scale(1);
+        text-shadow: none;
     }
-    /*25%*/
-    /*{*/
-        /*text-shadow: 0 0 20px #ff0,*/
-        /*0 0 30px #fffc3c,*/
-        /*0 0 50px #fffebb;*/
-    /*}*/
+    25%
+    {
+        transform: scale(1.2);
+        text-shadow: 0 0 20px #ff0,
+        0 0 30px #fffc3c,
+        0 0 50px #fffebb;
+    }
     50%
     {
-        /*text-shadow: 0 0 50px #ff0,*/
-        /*0 0 80px #fffc3c,*/
-        /*0 0 100px #fffebb;*/
-        transform: scale(2);
+        transform: scale(1.5);
+        text-shadow: 0 0 50px #ff0,
+        0 0 80px #fffc3c,
+        0 0 100px #fffebb;
     }
-    /*75%*/
-    /*{*/
-        /*text-shadow: 0 0 20px #ff0,*/
-        /*0 0 30px #fffc3c,*/
-        /*0 0 50px #fffebb;*/
-    /*}*/
+    75%
+    {
+        transform: scale(1.2);
+        text-shadow: 0 0 20px #ff0,
+        0 0 30px #fffc3c,
+        0 0 50px #fffebb;
+    }
     100%
     {
-        /*text-shadow: none;*/
         transform: scale(1);
+        text-shadow: none;
     }
 }

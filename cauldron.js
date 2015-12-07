@@ -22,10 +22,8 @@ var cauldronList = '.cauldron';
 var availableList = '.available';
 
 function moveIngredient (item) {
-    if (document.querySelector('.result').classList.contains('scale')) {
-        document.querySelector('.result').classList.remove('scale');
-    }
-    console.log(document.querySelector('span').classList, 'begin');
+    document.querySelector('.result').classList.remove('scale');
+    //console.log(document.querySelector('span').classList, 'begin');
     if (item.parentNode.classList.contains('available')) {
         var first = document.querySelector(cauldronList).firstChild;
         document.querySelector(cauldronList).insertBefore(item, first);
@@ -42,39 +40,56 @@ function moveIngredient (item) {
     if (ingredientsData.length > 1) {
         for (var i in formulas) {
             if (arrayEq(formulas[i].elements, ingredientsData)) {
-                document.querySelector('.result').innerHTML = formulas[i].result;
-                document.querySelector('.result').classList.add('scale');
+                var newResult = document.createElement('span');
+                var text = document.createTextNode(formulas[i].result);
+                newResult.classList.add('result');
+                newResult.classList.add('scale');
+                newResult.appendChild(text);
+                document.querySelector('.result').parentElement.replaceChild(newResult, document.querySelector('.result'));
                 break;
             }
         }
     }
-    console.log(document.querySelector('span').classList, 'end');
+    //console.log(document.querySelector('span').classList, 'end');
 }
 
-var availableIngredient = '.available .ingredient';
+var availableIngredients = '.available .ingredient';
 function filter(input) {
     var text = input.value;
-    var ingredients = [].slice.call(document.querySelectorAll(availableIngredient));
+    var ingredients = [].slice.call(document.querySelectorAll(availableIngredients));
     var ingredientsNames = [];
     for (var i in ingredients) {
-        ingredientsNames.push(ingredients[i].innerHTML.replace(/(^\s+|\s+$)/g, ''));
+        ingredientsNames.push(ingredients[i].textContent.replace(/(^\s+|\s+$)/g, ''));
     }
 
     for (var i in ingredientsNames) {
-        if (ingredientsNames[i].indexOf(text) === -1) {
-            document.querySelectorAll(availableIngredient)[i].style.display = 'none';
-        } else if (ingredients[i].style.display === 'none') {
-            document.querySelectorAll(availableIngredient)[i].style.display = 'list-item';
+        var index = ingredientsNames[i].indexOf(text);
+        if (index === -1) {
+            document.querySelectorAll(availableIngredients)[i].style.display = 'none';
+        } else {
+            if (ingredients[i].style.display === 'none') {
+                document.querySelectorAll(availableIngredients)[i].style.display = 'list-item';
+            }
+            document.querySelectorAll(availableIngredients)[i].innerHTML =
+                ingredientsNames[i].slice(0, index) +
+                '<span class="highlight">' + text + '</span>' +
+                ingredientsNames[i].slice(index + text.length);
         }
     }
 }
 
 function reset() {
     document.getElementById('filter').value = '';
-    var ingredients = document.querySelectorAll(availableIngredient);
+    var ingredients = document.querySelectorAll(availableIngredients);
     for (var i = 0; i < ingredients.length; i++) {
         if (ingredients[i].style.display === 'none') {
-            document.querySelectorAll(availableIngredient)[i].style.display = 'list-item';
+            document.querySelectorAll(availableIngredients)[i].style.display = 'list-item';
+        }
+        if (ingredients[i].innerHTML.indexOf('span') + 1) {
+            var clearedString =
+                ingredients[i].innerHTML.replace(/<span class="highlight">/, '').
+                replace(/<\/span>/, '');
+            document.querySelectorAll(availableIngredients)[i].innerHTML = clearedString;
         }
     }
 }
