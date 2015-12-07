@@ -1,1 +1,20 @@
+label
+{
+    width: 25px;
+    display: inline-block;
+}
 
+img
+{
+    width: 100%;
+}
+
+li
+{
+    list-style-type: none;
+}
+
+.color
+{
+    color: #f00;
+}
