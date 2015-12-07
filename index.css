@@ -1,1 +1,105 @@
+@font-face
+{
+    font-family: 'Malahit';
+    src: url(font/Malahit.woff2) format('woff2'),
+        url(font/Malahit.woff) format('woff'),
+        url(font/Malahit.ttf) format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
 
+.cross
+{
+    width: 20px;
+    cursor: pointer;
+}
+
+.lol
+{
+    border: 1px solid red;
+}
+
+ul
+{
+    list-style: none;
+    padding: 0;
+}
+
+.ingredient
+{
+    text-align: center;
+    font: 20px Malahit, serif;
+    cursor: default;
+}
+
+.available .ingredient
+{
+    border-width: 0;
+    border-bottom: 20px solid;
+    -moz-border-image: url(img/shelf.png) 0 0 20 0;
+    -webkit-border-image: url(img/shelf.png) 0 0 20 0;
+}
+
+img.cauldron
+{
+    width: 200px;
+}
+
+.cauldron .ingredient
+{
+    animation: fly 6s infinite linear;
+}
+
+@keyframes fly
+{
+    0%
+    {
+        transform: translateY(0);
+    }
+    50%
+    {
+        transform: translateY(40%);
+    }
+    100%
+    {
+        transform: translateY(0);
+    }
+}
+
+.scale /*TODO*/
+{
+    animation: light 3s 1 linear;
+}
+
+@keyframes light
+{
+    0%
+    {
+        /*text-shadow: none;*/
+        transform: scale(1);
+    }
+    /*25%*/
+    /*{*/
+        /*text-shadow: 0 0 20px #ff0,*/
+        /*0 0 30px #fffc3c,*/
+        /*0 0 50px #fffebb;*/
+    /*}*/
+    50%
+    {
+        /*text-shadow: 0 0 50px #ff0,*/
+        /*0 0 80px #fffc3c,*/
+        /*0 0 100px #fffebb;*/
+        transform: scale(2);
+    }
+    /*75%*/
+    /*{*/
+        /*text-shadow: 0 0 20px #ff0,*/
+        /*0 0 30px #fffc3c,*/
+        /*0 0 50px #fffebb;*/
+    /*}*/
+    100%
+    {
+        /*text-shadow: none;*/
+        transform: scale(1);
+    }
+}
