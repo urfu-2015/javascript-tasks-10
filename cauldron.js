@@ -22,8 +22,7 @@ var cauldronList = '.cauldron';
 var availableList = '.available';
 
 function moveIngredient (item) {
-    document.querySelector('.result').classList.remove('scale');
-    //console.log(document.querySelector('span').classList, 'begin');
+    document.querySelector('.result').classList.remove('light');
     if (item.parentNode.classList.contains('available')) {
         var first = document.querySelector(cauldronList).firstChild;
         document.querySelector(cauldronList).insertBefore(item, first);
@@ -43,14 +42,14 @@ function moveIngredient (item) {
                 var newResult = document.createElement('span');
                 var text = document.createTextNode(formulas[i].result);
                 newResult.classList.add('result');
-                newResult.classList.add('scale');
+                newResult.classList.add('light');
                 newResult.appendChild(text);
-                document.querySelector('.result').parentElement.replaceChild(newResult, document.querySelector('.result'));
+                document.querySelector('.result').parentElement.
+                replaceChild(newResult, document.querySelector('.result'));
                 break;
             }
         }
     }
-    //console.log(document.querySelector('span').classList, 'end');
 }
 
 var availableIngredients = '.available .ingredient';
