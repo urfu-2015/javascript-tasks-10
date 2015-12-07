@@ -17,10 +17,22 @@ function arrayEq(firstArray, secondArray) {
     return true;
 }
 
+function clearFromSpan(ingredients) {
+    for (var i = 0; i < ingredients.length; i++) {
+        if (ingredients[i].innerHTML.indexOf('span') + 1) {
+            var clearedString =
+                ingredients[i].innerHTML.replace(/<span class="highlight">/, '').
+                replace(/<\/span>/, '');
+            document.querySelectorAll(cauldronIngredients)[i].innerHTML = clearedString;
+        }
+    }
+}
+
 var cauldronList = '.cauldron';
 var availableList = '.available';
-
-function moveIngredient (item) {
+var cauldronIngredients = '.cauldron .ingredient';
+var availableIngredients = '.available .ingredient';
+function moveIngredient(item) {
     document.querySelector('.result').classList.remove('light');
     if (item.parentNode.classList.contains('available')) {
         var first = document.querySelector(cauldronList).firstChild;
@@ -28,13 +40,18 @@ function moveIngredient (item) {
     } else {
         var first = document.querySelector(availableList).firstChild;
         document.querySelector(availableList).insertBefore(item, first);
+        if (document.getElementById('filter').value.length) {
+            filter(document.getElementById('filter'));
+        }
     }
 
-    var ingredients = [].slice.call(document.querySelectorAll('.cauldron .ingredient'));
+    var ingredients = [].slice.call(document.querySelectorAll(cauldronIngredients));
     var ingredientsData = [];
     for (var i in ingredients) {
         ingredientsData.push(ingredients[i].dataset.element);
     }
+    clearFromSpan(ingredients);
+
     if (ingredientsData.length > 1) {
         for (var i in formulas) {
             if (arrayEq(formulas[i].elements, ingredientsData)) {
@@ -51,7 +68,6 @@ function moveIngredient (item) {
     }
 }
 
-var availableIngredients = '.available .ingredient';
 function filter(input) {
     var text = input.value;
     var ingredients = [].slice.call(document.querySelectorAll(availableIngredients));
@@ -83,11 +99,6 @@ function reset() {
         if (ingredients[i].style.display === 'none') {
             document.querySelectorAll(availableIngredients)[i].style.display = 'list-item';
         }
-        if (ingredients[i].innerHTML.indexOf('span') + 1) {
-            var clearedString =
-                ingredients[i].innerHTML.replace(/<span class="highlight">/, '').
-                replace(/<\/span>/, '');
-            document.querySelectorAll(availableIngredients)[i].innerHTML = clearedString;
-        }
+        clearFromSpan(ingredients);
     }
 }
