@@ -1,1 +1,123 @@
+html,
+body
+{
+    width: 99%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-image: url(http://appapk.ru/uploads/posts/2013-03/1362568778_unexit-1.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
 
+.ingredient,
+.result
+{
+    font-family: 'Anfisa Grotesk';
+    font-size: 2em;
+    color: #ffb01a;
+    line-height: 30px;
+}
+
+div,
+img
+{
+    position: absolute;
+}
+
+.filterWrap,
+.result
+{
+    top: 20px;
+}
+
+.filterWrap,
+.ingredients
+{
+    left: 200px;
+}
+
+.boiler,
+.ingredients
+{
+    top: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.result,
+.boiler
+{
+    left: 700px;
+}
+
+.ingredients div,
+.boiler div,
+.result
+{
+    position: relative;
+    align-self: center;
+    margin-left: 100px;
+}
+
+.boiler
+{
+    align-items: flex-end;
+}
+
+img
+{
+    height: 220px;
+    top: 450px;
+    left: 730px;
+}
+
+.toBoiler,
+.fromBoiler
+{
+    height: 100%;
+}
+
+.close
+{
+    background: url('http://bit.ly/1SLkxCs') no-repeat;
+    background-size: 30px;
+    background-position: 0 0;
+    width: 30px;
+    height: 30px;
+    left: 250px;
+    top: 10px;
+}
+
+.close:hover
+{
+    background-position: 0 -30px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.noDisplay
+{
+    display: none;
+}
+
+.marked
+{
+    font-weight: bold;
+    color: #ff0;
+}
+
+.ingredient
+{
+    -webkit-user-select: none;
+    -moz-user-select: none;
+}
+
+@font-face
+{
+    src: url('Anfisa_Grotesk.ttf');
+    font-family: 'Anfisa Grotesk';
+}

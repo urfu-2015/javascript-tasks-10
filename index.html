@@ -6,47 +6,32 @@
         <link rel="stylesheet" href="index.css">
     </head>
     <body>
-        <!-- Пример вёрстки котла для экспериментов-->
-        <table>
-            <thead>
-                <tr>
-                    <th>
-                        <!-- Поле для фильтрации алхимических элементов -->
-                        <input>
-                    </th>
-                    <th>
-                        <!-- Результат смешивания в котле – новый элемент -->
-                        <span>Пар</span>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <!-- Список доступных элементов (два мы уже положили в котёл)-->
-                        <ul>
-                            <li data-element="earth">земля</li>
-                            <li data-element="air">воздух</li>
-                            <li data-element="dust">пыль</li>
-                            <li data-element="swamp">болото</li>
-                            <li data-element="energy">энергия</li>
-                            <li data-element="stone">камень</li>
-                            <li data-element="life">жизнь</li>
-                            <li data-element="milk">молоко</li>
-                            <li data-element="sourcream">сметанка</li>
-                        </ul>
-                    </td>
-                    <td>
-                        <!-- Элементы в котле для смешивания -->
-                        <ul>
-                            <li data-element="fire">огонь</li>
-                            <li data-element="water">вода</li>
-                        </ul>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
+        <main>
+            <aside class="fromBoiler">
+                <div class="filterWrap">
+                    <input id="filter" type="text">
+                    <div class="close"></div>
+                </div>
+                <div class="ingredients">
+                    <div class="from ingredient" data-element="earth">земля</div>
+                    <div class="from ingredient" data-element="air">воздух</div>
+                    <div class="from ingredient" data-element="dust">пыль</div>
+                    <div class="from ingredient" data-element="swamp">болото</div>
+                    <div class="from ingredient" data-element="energy">энергия</div>
+                    <div class="from ingredient" data-element="stone">камень</div>
+                    <div class="from ingredient" data-element="life">жизнь</div>
+                    <div class="from ingredient" data-element="milk">молоко</div>
+                    <div class="from ingredient" data-element="sourcream">сметанка</div>
+                    <div class="from ingredient" data-element="fire">огонь</div>
+                    <div class="from ingredient" data-element="water">вода</div>
+                </div>
+            </aside>
+            <aside class="toBoiler">
+                <div class="result">В котле пусто!</div>
+                <div class="boiler"></div>
+                <img src="http://s020.radikal.ru/i716/1512/e5/cfb4c0e32f57.png" alt="котел">
+            </aside>
+        </main>
         <script src="formulas.js"></script>
         <script src="cauldron.js"></script>
     </body>
