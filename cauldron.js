@@ -10,7 +10,6 @@ formulas = formulas.sort(function(formula1, formula2) {
 var field = getElement("in");
 var list = getElement("list");
 var cauldron = getElement("cauldron");
-var cross = getElement("close");
 var result = getElement("result");
 
 function getElement(className) {
@@ -20,28 +19,27 @@ function getElement(className) {
 list.addEventListener('click', addToCauldron);
 cauldron.addEventListener('click', addToList);
 field.addEventListener('input', updateList);
-cross.addEventListener('click', clear);
 
 function addToCauldron(e) {
-    adding(e.target, 'ul.list');
-}
-
-function addToList(e) {
-    adding(e.target, 'ul.cauldron');
-}
-
-function adding(element, source) {
+    var element = e.target;
     if (element.matches('span.color')) {
         element = element.parentElement;
     }
-    if (!element.matches(source)) {
-        if (source === 'ul.cauldron') {
-            list.appendChild(element);
-            setBacklight(field.value, element);
-        } else {
-            cauldron.appendChild(element);
-            removeBacklight(element);
-        }
+    if (element.hasAttribute('data-element')) {
+        cauldron.appendChild(element);
+        removeBacklight(element);
+        changeResult();
+    }
+}
+
+function addToList(e) {
+    var element = e.target;
+    if (element.matches('span.color')) {
+        element = element.parentElement;
+    }
+    if (element.hasAttribute('data-element')) {
+        list.appendChild(element);
+        setBacklight(field.value, element);
         changeResult();
         updateList();
     }
@@ -63,11 +61,6 @@ function updateList() {
             setBacklight(value, child);
         }
     }
-}
-
-function clear(e) {
-    field.value = "";
-    updateList(e);
 }
 
 function getResult() {
