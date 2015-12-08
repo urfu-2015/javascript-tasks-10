@@ -1,53 +1,33 @@
 <!DOCTYPE html>
 <html lang="ru">
-    <head>
-        <meta charset="utf-8">
-        <title>Котёл алхимика</title>
-        <link rel="stylesheet" href="index.css">
-    </head>
-    <body>
-        <!-- Пример вёрстки котла для экспериментов-->
-        <table>
-            <thead>
-                <tr>
-                    <th>
-                        <!-- Поле для фильтрации алхимических элементов -->
-                        <input>
-                    </th>
-                    <th>
-                        <!-- Результат смешивания в котле – новый элемент -->
-                        <span>Пар</span>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <!-- Список доступных элементов (два мы уже положили в котёл)-->
-                        <ul>
-                            <li data-element="earth">земля</li>
-                            <li data-element="air">воздух</li>
-                            <li data-element="dust">пыль</li>
-                            <li data-element="swamp">болото</li>
-                            <li data-element="energy">энергия</li>
-                            <li data-element="stone">камень</li>
-                            <li data-element="life">жизнь</li>
-                            <li data-element="milk">молоко</li>
-                            <li data-element="sourcream">сметанка</li>
-                        </ul>
-                    </td>
-                    <td>
-                        <!-- Элементы в котле для смешивания -->
-                        <ul>
-                            <li data-element="fire">огонь</li>
-                            <li data-element="water">вода</li>
-                        </ul>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-        <script src="formulas.js"></script>
-        <script src="cauldron.js"></script>
-    </body>
+<head>
+    <meta charset="utf-8">
+    <title>Котёл алхимика</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+<header>
+    <input type="search" id="filter">
+    <div id="newElement"></div>
+</header>
+<main>
+    <div class="elements">
+        <div data-element="earth">земля</div>
+        <div data-element="air">воздух</div>
+        <div data-element="dust">пыль</div>
+        <div data-element="swamp">болото</div>
+        <div data-element="energy">энергия</div>
+        <div data-element="stone">камень</div>
+        <div data-element="life">жизнь</div>
+        <div data-element="milk">молоко</div>
+        <div data-element="sourcream">сметанка</div>
+        <div data-element="fire">огонь</div>
+        <div data-element="water">вода</div>
+    </div>
+    <div class="cauldron">
+    </div>
+</main>
+<script src="formulas.js"></script>
+<script src="cauldron.js"></script>
+</body>
 </html>
