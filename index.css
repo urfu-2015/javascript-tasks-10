@@ -1,1 +1,112 @@
+body
+{
+    background: url(images/background.jpg) 50% 35% no-repeat;
+    color: #fff;
+}
 
+.ingredients-filter
+{
+    text-align: center;
+    width: 20%;
+}
+
+.invisible-input,
+.invisible-ingredient
+{
+    display: none;
+}
+
+.ingredients
+{
+    width: 85%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.available-ingredients,
+.used-ingredients,
+.potion
+{
+    width: 300px;
+    text-align: center;
+    padding: 10px;
+}
+
+.ingredients-list
+{
+    list-style-type: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-between;
+    width: 300px;
+}
+
+.ingredients-list li
+{
+    height: 90px;
+    width: 60px;
+    text-align: center;
+    margin: 10px;
+}
+
+[data-element='earth']
+{
+    background: url(images/bottle1.png) 0% 0% / 100% 100% no-repeat;
+}
+
+[data-element='air']
+{
+    background: url(images/bottle2.png) 0% 0% / 100% 100% no-repeat;
+}
+
+[data-element='dust']
+{
+    background: url(images/bottle3.png) 0% 0% / 100% 100% no-repeat;
+}
+
+[data-element='swamp']
+{
+    background: url(images/bottle4.png) 0% 0% / 100% 100% no-repeat;
+}
+
+[data-element='energy']
+{
+    background: url(images/bottle5.png) 0% 0% / 100% 100% no-repeat;
+}
+
+[data-element='stone']
+{
+    background: url(images/bottle6.png) 0% 0% / 100% 100% no-repeat;
+}
+
+[data-element='life']
+{
+    background: url(images/bottle7.png) 0% 0% / 100% 100% no-repeat;
+}
+
+[data-element='milk']
+{
+    background: url(images/bottle8.png) 0% 0% / 100% 100% no-repeat;
+}
+
+[data-element='sourcream']
+{
+    background: url(images/bottle9.png) 0% 0% / 100% 100% no-repeat;
+}
+
+[data-element='fire']
+{
+    background: url(images/bottle6.png) 0% 0% / 100% 100% no-repeat;
+}
+
+[data-element='water']
+{
+    background: url(images/bottle4.png) 0% 0% / 100% 100% no-repeat;
+}
+
+.potion
+{
+    position: absolute;
+    left: 62%;
+    font-size: 50px;
+}
