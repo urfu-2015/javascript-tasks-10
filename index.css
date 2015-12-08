@@ -2,24 +2,29 @@ body,
 header,
 main,
 .elements,
-.cauldron{
+.cauldron
+{
     display: flex;
 }
 
-body {
+body
+{
     flex-direction: column;
 }
 
-header {
+header
+{
     justify-content: space-around;
 }
 
-main {
+main
+{
     justify-content: center;
 }
 
 .elements,
-.cauldron {
+.cauldron
+{
     border: 1px solid black;
     height: 400px;
     width: 500px;
@@ -29,12 +34,14 @@ main {
     margin: 10px;
 }
 
-#newElement {
+#newElement
+{
     color: darkblue;
 }
 
 div[data-element],
-#result {
+#result
+{
     border: 1px solid black;
     padding-top: 30px;
     padding-bottom: 30px;
@@ -46,6 +53,7 @@ div[data-element],
     color: white;
 }
 
-.elements div[data-element] span {
+.elements div[data-element] span
+{
     color: darkgreen;
 }
