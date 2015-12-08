@@ -7,11 +7,15 @@ formulas = formulas.sort(function(formula1, formula2) {
 });
 
 // Механизмы котла описывать здесь
-var field = document.getElementById("in");
-var list = document.getElementsByClassName("list")[0];
-var cauldron = document.getElementsByClassName("cauldron")[0];
-var cross = document.getElementsByClassName("close")[0];
-var result = document.getElementsByClassName("result")[0];
+var field = getElement("in");
+var list = getElement("list");
+var cauldron = getElement("cauldron");
+var cross = getElement("close");
+var result = getElement("result");
+
+function getElement(className) {
+    return document.getElementsByClassName(className)[0];
+}
 
 list.addEventListener('click', addToCauldron);
 cauldron.addEventListener('click', addToList);
@@ -19,36 +23,43 @@ field.addEventListener('input', updateList);
 cross.addEventListener('click', clear);
 
 function addToCauldron(e) {
-    var element = e.target;
-    cauldron.appendChild(element);
-    changeResult();
-    removeBacklight(element);
+    adding(e.target, 'ul.list');
 }
 
 function addToList(e) {
-    var element = e.target;
-    list.appendChild(element);
-    changeResult();
+    adding(e.target, 'ul.cauldron');
+}
+
+function adding(element, source) {
+    if (element.matches('span.color')) {
+        element = element.parentElement;
+    }
+    if (!element.matches(source)) {
+        if (source === 'ul.cauldron') {
+            list.appendChild(element);
+            setBacklight(field.value, element);
+        } else {
+            cauldron.appendChild(element);
+            removeBacklight(element);
+        }
+        changeResult();
+    }
 }
 
 function changeResult() {
-    var res = getResult();
-    if (res.length !== 0) {
-        result.textContent = res;
-    } else {
-        result.textContent = 'Уупс :(';
-    }
+    result.textContent = getResult() || 'Уупс :(';
 }
 
 function updateList(e) {
     var value = field.value;
     for (var i = 0; i < list.children.length; i++) {
-        var text = list.children[i].textContent;
+        var child = list.children[i];
+        var text = child.textContent;
         if (value.length > 0 && text.indexOf(value) === -1) {
-            list.children[i].style.display = 'none';
+            child.style.display = 'none';
         } else {
-            list.children[i].style.display = 'block';
-            setBacklight(value, list.children[i]);
+            child.style.display = 'block';
+            setBacklight(value, child);
         }
     }
 }
@@ -61,7 +72,7 @@ function clear(e) {
 function getResult() {
     var names = [];
     for (var i = 0; i < cauldron.children.length; i++) {
-        names.push(cauldron.children[i].getAttribute('data-element'));
+        names.push(cauldron.children[i].dataset.element);
     }
     for (var j = 0; j < formulas.length; j++) {
         var elements = formulas[j].elements;
@@ -77,7 +88,8 @@ function contains(elements, values) {
 }
 
 function setBacklight(value, element) {
-    element.innerHTML = element.textContent.replace(value, '<span class="color">' + value + '</span>');
+    var re = new RegExp(value, 'g');
+    element.innerHTML = element.textContent.replace(re, '<span class="color">' + value + '</span>');
 }
 
 function removeBacklight(element) {

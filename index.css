@@ -1,12 +1,44 @@
+body
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-image: url(http://s44.radikal.ru/i106/0907/47/bd577c2c6790.jpg);
+    background-size: 100%;
+}
+
+table
+{
+    text-align: center;
+    font: 120% 'Buxton Sketch', cursive;
+    color: white;
+    width: 400px;
+}
+
+th
+{
+    font-size: 120%;
+    font-weight: bolder;
+    color: #f9fc30;
+}
+
 label
 {
     width: 25px;
     display: inline-block;
 }
 
-img
+div
 {
     width: 100%;
+    position: fixed;
+    bottom: 0;
+    text-align: center;
+}
+
+img
+{
+    width: 20%;
 }
 
 li
