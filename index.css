@@ -1,1 +1,51 @@
+body,
+header,
+main,
+.elements,
+.cauldron{
+    display: flex;
+}
 
+body {
+    flex-direction: column;
+}
+
+header {
+    justify-content: space-around;
+}
+
+main {
+    justify-content: center;
+}
+
+.elements,
+.cauldron {
+    border: 1px solid black;
+    height: 400px;
+    width: 500px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 10px;
+}
+
+#newElement {
+    color: darkblue;
+}
+
+div[data-element],
+#result {
+    border: 1px solid black;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    margin: 18px;
+    width: 80px;
+    border-radius: 80px;
+    background-color: rgba(150, 50, 50, .5);
+    text-align: center;
+    color: white;
+}
+
+.elements div[data-element] span {
+    color: darkgreen;
+}
