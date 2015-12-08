@@ -1,7 +1,7 @@
 'use strict';
 
 // Комбинации алхимических элементов
-window.formulas = [
+var formulas = [
     {
         // Исходные элементы
         elements: ['fire', 'water'],
@@ -78,3 +78,23 @@ window.formulas = [
         result: 'котик'
     }
 ];
+
+function Recipe(formula) {
+    this.elements = formula.elements;
+    this.result = formula.result;
+}
+
+Recipe.prototype.checkElementInRecipe = function (elements) {
+    var result = this.elements.filter(function (element) {
+        return elements.indexOf(element) === -1;
+    });
+    return !result.length;
+};
+
+Recipe.prototype.getСomplexity = function () {
+    return this.elements.length;
+};
+
+window.formulas = formulas.map(function (item) {
+    return new Recipe(item)
+});
