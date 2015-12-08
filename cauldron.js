@@ -43,6 +43,7 @@ function adding(element, source) {
             removeBacklight(element);
         }
         changeResult();
+        updateList();
     }
 }
 
@@ -50,7 +51,7 @@ function changeResult() {
     result.textContent = getResult() || 'Уупс :(';
 }
 
-function updateList(e) {
+function updateList() {
     var value = field.value;
     for (var i = 0; i < list.children.length; i++) {
         var child = list.children[i];
