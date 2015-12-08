@@ -1,1 +1,56 @@
+body
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-image: url(http://s44.radikal.ru/i106/0907/47/bd577c2c6790.jpg);
+    background-repeat: no-repeat;
+    background-size: 1500px 2000px;
+    overflow: hidden;
+}
 
+table
+{
+    text-align: center;
+    font: 20px 'Buxton Sketch', cursive;
+    color: white;
+    width: 400px;
+}
+
+th
+{
+    font-size: 120%;
+    font-weight: bolder;
+    color: #f9fc30;
+}
+
+label
+{
+    width: 25px;
+    display: inline-block;
+}
+
+.bg_cauldron
+{
+    width: 100%;
+    height: 300px;
+    position: fixed;
+    bottom: 0;
+    background-image: url(https://img-fotki.yandex.ru/get/5000/tatyana2q8-medvedeva.3f/0_43809_6d84d26d_L);
+    z-index: -1;
+}
+
+img
+{
+    width: 20%;
+}
+
+li
+{
+    list-style-type: none;
+}
+
+.color
+{
+    color: #f00;
+}
