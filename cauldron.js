@@ -116,7 +116,7 @@ function combinationChecker() {
 function inputHandler(event) {
     console.log(inputNode.value);
     for (var i = 0; i < warehouse.elems.length; ++i) {
-        var currElem = warehouse.elems[i].innerText;
+        var currElem = warehouse.elems[i].innerHTML;
         if (currElem.search(inputNode.value) === -1) {
             warehouse.elems[i].style.display = 'none';
         } else {
