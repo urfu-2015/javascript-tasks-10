@@ -3,17 +3,17 @@
 // Получаем комбинации элементов
 var formulas = window.formulas;
 var ingredients = {
-    'земля':'earth',
-    'воздух':'air',
-    'пыль':'dust',
-    'болото':'swamp',
-    'энергия':'energy',
-    'камень':'stone',
-    'жизнь':'life',
-    'молоко':'milk',
-    'сметанка':'sourcream',
-    'огонь':'fire',
-    'вода':'water'
+    'земля': 'earth',
+    'воздух': 'air',
+    'пыль': 'dust',
+    'болото': 'swamp',
+    'энергия': 'energy',
+    'камень': 'stone',
+    'жизнь': 'life',
+    'молоко': 'milk',
+    'сметанка': 'sourcream',
+    'огонь': 'fire',
+    'вода': 'water'
 };
 
 var usedIngredients = {};
@@ -21,100 +21,97 @@ var usedIngredients = {};
 function filterIngredients(substring) {
     var list = document.querySelector('#ingredients');
     list.innerHTML = '';
-    var filteredIngredients = [];
-    var re = new RegExp("([а-я]*)(" + substring+ ")([а-я]*)","i");
+    var re = new RegExp('([а-я]*)(' + substring + ')([а-я]*)', 'i');
     for (var key in ingredients) {
         var result = re.exec(key);
-        if (result && !usedIngredients[key]) {
-            var newLi = document.createElement('div');
-            var textSpan = document.createElement("SPAN")
-            textSpan.className = 'red-text';
-            textSpan.innerText = result[2];
-            newLi.innerHTML = result[1];
-            newLi.appendChild(textSpan);
-            newLi.innerHTML += result[3];
-            newLi.setAttribute('data-element', ingredients[result[0]]);
-            newLi.addEventListener("mousedown", DragAndDrop, false);
-            list.appendChild(newLi);
+        if (!result || usedIngredients[key]) {
+            continue;
         }
+        var newDiv = createNewDiv(ingredients[result[0]]);
+        var textSpan = document.createElement('span');
+        textSpan.className = 'red-text';
+        textSpan.innerText = result[2];
+        newDiv.innerHTML = result[1];
+        newDiv.appendChild(textSpan);
+        newDiv.innerHTML += result[3];
+        list.appendChild(newDiv);
     };
 }
 
+function createNewDiv(data) {
+    var newDiv = document.createElement('div');
+    newDiv.setAttribute('data-element', ingredients[result[0]]);
+    newDiv.addEventListener('mousedown', drag, false);
+    newDiv.addEventListener('mouseup', drop, false);
+    newDiv.addEventListener('mousemove', move, false);
+    return newDiv;
+}
 document.getElementById('off-filter').onclick = function () {
     var filter = document.getElementById('filter');
-    filter.setAttribute('value','');
+    filter.setAttribute('value', '');
     filter.value = '';
     filterIngredients('');
-}
+};
 
 document.getElementById('filter').onkeyup = function () {
     this.setAttribute('value', this.value);
     filterIngredients(this.value);
-}
+};
+
 document.getElementById('remove').onclick = function () {
     document.querySelector('#used-ingredients').innerHTML = '';
     usedIngredients = {};
     filterIngredients(document.getElementById('filter').value);
     createNewElement();
-}
-var ingredientsLi = document.querySelectorAll('.cauldron div,.box div');
-for (var i = 0; i < ingredientsLi.length; i++) {
-    ingredientsLi[i].addEventListener("mousedown", DragAndDrop, false);
 };
 
-function DragAndDrop(e) {
-    var item = this;
-    item.style.position = 'absolute';
-    item.style.margin = '0';
-    moveAt(e);
-    function moveAt(e) {
-        item.style.left = e.pageX - item.offsetWidth / 2 + 'px';
-        item.style.top = e.pageY - item.offsetHeight / 2 + 'px';
-    }
+var ingredientsDiv = document.querySelectorAll('.cauldron div,.box div');
+for (var i = 0; i < ingredientsDiv.length; i++) {
+    ingredientsDiv[i].addEventListener('mousedown', drag, false);
+    ingredientsDiv[i].addEventListener('mouseup', drop, false);
+    ingredientsDiv[i].addEventListener('mousemove', move, false);
+};
 
-    document.onmousemove = function(e) {
-        moveAt(e);
-    }
+function drag(e) {
+    this.style.position = 'absolute';
+    this.style.margin = '0';
+}
 
-    item.onmouseup = function() {
-        document.onmousemove = null;
-        item.onmouseup = null;
-        var text = item.innerText.replace(/(\r\n|\n|\r)/gm,'');
-        if (item.parentNode.id === 'used-ingredients')
-        {
-            delete usedIngredients[text];
-            filterIngredients(document.getElementById('filter').value);
-        }
-        if (item.parentNode.id === 'ingredients')
-        {
-            usedIngredients[text] = ingredients[text];
-            var newLi = document.createElement('div');
-            newLi.innerText = item.innerText;
-            newLi.setAttribute('data-element', ingredients[text]);
-            newLi.addEventListener("mousedown", DragAndDrop, false);
-            document.querySelector('#used-ingredients').appendChild(newLi);
-            
-        }
-        item.parentNode.removeChild(item);
-        createNewElement();
+function move(e) {
+    this.style.left = e.pageX - 10 + 'px';
+    this.style.top = e.pageY - 10 + 'px';
+}
+
+function drop(e) {
+    document.onmousemove = null;
+    this.onmouseup = null;
+    var text = this.innerText.replace(/(\r\n|\n|\r)/gm, '');
+    if (this.parentNode.id === 'used-ingredients') {
+        delete usedIngredients[text];
+        filterIngredients(document.getElementById('filter').value);
     }
+    if (this.parentNode.id === 'ingredients') {
+        usedIngredients[text] = ingredients[text];
+        var newDiv = createNewDiv(ingredients[text]);
+        newDiv.innerText = this.innerText;
+        document.querySelector('#used-ingredients').appendChild(newDiv);
+    }
+    this.parentNode.removeChild(this);
+    createNewElement();
 }
 
 function createNewElement() {
     var result = checkСombination();
-    if (!result) {
-        if (Object.keys(usedIngredients).length > 0){
-            document.getElementById('result').innerText = 'попробуй другую комбинацию';
-            return;
-        }
-        document.getElementById('result').innerText = 'ваш котел пуст';
-        return;
+    if (result) {
+        return document.getElementById('result').innerText = result;
     }
-    document.getElementById('result').innerText = result;
+    if (Object.keys(usedIngredients).length > 0) {
+        return document.getElementById('result').innerText = 'попробуй другую комбинацию';
+    }
+    return document.getElementById('result').innerText = 'ваш котел пуст';
 }
 
-function checkСombination()
-{
+function checkСombination() {
     var combinationLenght = 0;
     var result = '';
     for (var i = 0; i < formulas.length; i++) {
@@ -127,10 +124,10 @@ function checkСombination()
 }
 
 function isCombination(combination) {
-    var vals = Object.keys(usedIngredients).map(function (key) {
+    var values = Object.keys(usedIngredients).map(function (key) {
         return usedIngredients[key];
     });
-    return combination.every(elem => vals.indexOf(elem) !== -1) &&
-           combination.length === vals.length;
+    return combination.every(elem => values.indexOf(elem) !== -1) &&
+        combination.length === values.length;
 }
 // Механизмы котла описывать здесь
