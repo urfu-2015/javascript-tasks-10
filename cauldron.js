@@ -53,6 +53,11 @@ function getArray(size) {
 }
 
 function filterInput (text) {
+    if (!text) {
+        addClass(closing, 'noDisplay');
+    } else {
+        removeClass(closing, 'noDisplay');
+    }
     var ing = document.getElementsByClassName('from');
     for (var i = 0; i < ing.length; i++) {
         var node = ing[i];
@@ -93,6 +98,7 @@ function move(e) {
         moveAt(e);
     };
     ingredient.onmouseup = function() {
+        ingredient.innerHTML = ingredient.textContent;
         var border = 600;
         ingredient.style.position = 'static';
         var parentClass = '';
@@ -124,7 +130,8 @@ document.getElementById('filter').onkeyup = function () {
     filterInput(this.value);
 }
 
-document.getElementsByClassName('close')[0].onclick = function () {
+var closing = document.getElementsByClassName('close')[0];
+closing.onclick = function () {
     var f = document.getElementById('filter');
     f.setAttribute('value', '');
     f.value = '';
