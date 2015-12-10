@@ -54,9 +54,9 @@ main
 }
 .card:hover
 {
-    cursor: move;
+    /*cursor: move;*/
     cursor: -webkit-grab;
-    cursor: -moz-grab;
+    /*cursor: -moz-grab;*/
 }
 .result
 {
