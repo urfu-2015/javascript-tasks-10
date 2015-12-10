@@ -5,7 +5,6 @@ window.formulas = [
     {
         // Исходные элементы
         elements: ['fire', 'water'],
-
         // Получаемый элемент
         result: 'огненная вода'
     },

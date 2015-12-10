@@ -1,1 +1,68 @@
-
+body
+{
+    background: rgb(139,121,94);
+    font-family: Arial, sans-serif;
+}
+main
+{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.right_side
+{
+    width: auto;
+    margin: 0;
+}
+.left_side
+{
+    width: auto;
+    margin: 0;
+}
+.cauldron_area
+{
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+}
+.search_ingredient
+{
+    align-self: center;
+}
+.cauldron
+{
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+}
+.list_items
+{
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    height: 600px;
+    background: rgb(155,205,155);
+}
+.card
+{
+    width: 180px;
+    list-style: none;
+    padding: 10px;
+    margin: 0;
+    border: 1px solid rgb(0,0,0);
+}
+.card:hover
+{
+    /*cursor: move;*/
+    cursor: -webkit-grab;
+    /*cursor: -moz-grab;*/
+}
+.result
+{
+    width: 350px;
+    font-weight: 600;
+    font-size: 25px;
+    align-self: center;
+    text-align: center;
+}

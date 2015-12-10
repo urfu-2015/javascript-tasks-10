@@ -7,45 +7,45 @@
     </head>
     <body>
         <!-- Пример вёрстки котла для экспериментов-->
-        <table>
-            <thead>
-                <tr>
-                    <th>
-                        <!-- Поле для фильтрации алхимических элементов -->
-                        <input>
-                    </th>
-                    <th>
+        <main>
+            <aside class="left_side">
+                <section class="list_items left_list">
+                        <h4>Доступные элементы</h4>
+                        <section class="search_ingredient">
+                            <!-- Поле для фильтрации алхимических элементов -->
+                            <label for="filter">Фильтр элементов</label>
+                            <input class="" id="filter">
+                            <input type="button" value="Сбросить" class="filterRemover">
+                        </section>
+                    <!-- Список доступных элементов (два мы уже положили в котёл)-->
+                        <span data-element="earth" class="card">земля</span>
+                        <span data-element="air" class="card">воздух</span>
+                        <span data-element="dust" class="card">пыль</span>
+                        <span data-element="swamp" class="card">болото</span>
+                        <span data-element="energy" class="card">энергия</span>
+                        <span data-element="stone" class="card">камень</span>
+                        <span data-element="life" class="card">жизнь</span>
+                        <span data-element="milk" class="card">молоко</span>
+                        <span data-element="sourcream" class="card">сметанка</span>
+                </section>
+                <!-- Элементы в котле для смешивания -->
+            </aside>
+            <section class="cauldron_area">
+                <section class="cauldron">
+                    <div class="result">Пар</div>
+                    <img src="cauldron.png" alt="Котел алхимика" width="350px" height="550px"
+                        class="cauldron_img">
                         <!-- Результат смешивания в котле – новый элемент -->
-                        <span>Пар</span>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <!-- Список доступных элементов (два мы уже положили в котёл)-->
-                        <ul>
-                            <li data-element="earth">земля</li>
-                            <li data-element="air">воздух</li>
-                            <li data-element="dust">пыль</li>
-                            <li data-element="swamp">болото</li>
-                            <li data-element="energy">энергия</li>
-                            <li data-element="stone">камень</li>
-                            <li data-element="life">жизнь</li>
-                            <li data-element="milk">молоко</li>
-                            <li data-element="sourcream">сметанка</li>
-                        </ul>
-                    </td>
-                    <td>
-                        <!-- Элементы в котле для смешивания -->
-                        <ul>
-                            <li data-element="fire">огонь</li>
-                            <li data-element="water">вода</li>
-                        </ul>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                </section>
+            </section>
+            <aside class="right_side">
+                <section class="list_items right_list">
+                    <h4>Элементы, которые в котле.</h4>
+                            <span data-element="fire" class="card">огонь</span>
+                            <span data-element="water" class="card">вода</span>
+                </section>
+            </aside>
+        </main>
 
         <script src="formulas.js"></script>
         <script src="cauldron.js"></script>
