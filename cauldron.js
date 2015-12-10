@@ -30,17 +30,18 @@ function filterIngredients(substring) {
         var newDiv = createNewDiv(ingredients[result[0]]);
         var textSpan = document.createElement('span');
         textSpan.className = 'red-text';
-        textSpan.innerText = result[2];
+        textSpan.textContent = result[2];
         newDiv.innerHTML = result[1];
         newDiv.appendChild(textSpan);
         newDiv.innerHTML += result[3];
         list.appendChild(newDiv);
+        
     };
 }
 
 function createNewDiv(data) {
     var newDiv = document.createElement('div');
-    newDiv.setAttribute('data-element', ingredients[result[0]]);
+    newDiv.setAttribute('data-element', data);
     newDiv.addEventListener('mousedown', drag, false);
     newDiv.addEventListener('mouseup', drop, false);
     newDiv.addEventListener('mousemove', move, false);
@@ -75,17 +76,18 @@ for (var i = 0; i < ingredientsDiv.length; i++) {
 function drag(e) {
     this.style.position = 'absolute';
     this.style.margin = '0';
+    this.zIndex = '1000';
 }
 
 function move(e) {
-    this.style.left = e.pageX - 10 + 'px';
-    this.style.top = e.pageY - 10 + 'px';
+    this.style.left = e.pageX - 30 + 'px';
+    this.style.top = e.pageY - 30 + 'px';
 }
 
 function drop(e) {
     document.onmousemove = null;
     this.onmouseup = null;
-    var text = this.innerText.replace(/(\r\n|\n|\r)/gm, '');
+    var text = this.textContent.replace(/(\r\n|\n|\r)/gm, '');
     if (this.parentNode.id === 'used-ingredients') {
         delete usedIngredients[text];
         filterIngredients(document.getElementById('filter').value);
@@ -93,7 +95,7 @@ function drop(e) {
     if (this.parentNode.id === 'ingredients') {
         usedIngredients[text] = ingredients[text];
         var newDiv = createNewDiv(ingredients[text]);
-        newDiv.innerText = this.innerText;
+        newDiv.textContent = text;
         document.querySelector('#used-ingredients').appendChild(newDiv);
     }
     this.parentNode.removeChild(this);
@@ -103,12 +105,12 @@ function drop(e) {
 function createNewElement() {
     var result = checkСombination();
     if (result) {
-        return document.getElementById('result').innerText = result;
+        return document.getElementById('result').textContent = result;
     }
     if (Object.keys(usedIngredients).length > 0) {
-        return document.getElementById('result').innerText = 'попробуй другую комбинацию';
+        return document.getElementById('result').textContent = 'попробуй другую комбинацию';
     }
-    return document.getElementById('result').innerText = 'ваш котел пуст';
+    return document.getElementById('result').textContent = 'ваш котел пуст';
 }
 
 function checkСombination() {
