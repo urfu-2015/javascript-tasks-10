@@ -1,1 +1,12 @@
 
+.close
+{
+    width: 25px;
+    position: relative;
+    top: 6px;
+}
+
+.highlighted
+{
+    color: red;
+}

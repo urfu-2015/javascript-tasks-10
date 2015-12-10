@@ -6,25 +6,25 @@
         <link rel="stylesheet" href="index.css">
     </head>
     <body>
-        <!-- Пример вёрстки котла для экспериментов-->
+        <img src="images/cauldron.png">
         <table>
             <thead>
                 <tr>
                     <th>
-                        <!-- Поле для фильтрации алхимических элементов -->
-                        <input>
+                        <input id="searchbox">
+                        <img
+                            src="images/close.png"
+                            class="close">
                     </th>
                     <th>
-                        <!-- Результат смешивания в котле – новый элемент -->
-                        <span>Пар</span>
+                        <span class="result">огненная вода</span>
                     </th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>
-                        <!-- Список доступных элементов (два мы уже положили в котёл)-->
-                        <ul>
+                        <ul class="list1">
                             <li data-element="earth">земля</li>
                             <li data-element="air">воздух</li>
                             <li data-element="dust">пыль</li>
@@ -37,8 +37,7 @@
                         </ul>
                     </td>
                     <td>
-                        <!-- Элементы в котле для смешивания -->
-                        <ul>
+                        <ul class="list2">
                             <li data-element="fire">огонь</li>
                             <li data-element="water">вода</li>
                         </ul>
@@ -46,7 +45,6 @@
                 </tr>
             </tbody>
         </table>
-
         <script src="formulas.js"></script>
         <script src="cauldron.js"></script>
     </body>
