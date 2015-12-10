@@ -83,13 +83,16 @@ function removeClass(object, className) {
 
 function move(e) {
     var ingredient = e.target;
+    if (ingredient.matches('span.marked')) {
+        ingredient = ingredient.parentElement;
+    }
     var coords = getCoords(ingredient);
     var shiftX = e.pageX - coords.left;
     var shiftY = e.pageY - coords.top;
     ingredient.style.position = 'absolute';
     document.body.appendChild(ingredient);
+    console.log(ingredient);
     moveAt(e);
-    ingredient.style.zIndex = 1000;
     function moveAt(e) {
         ingredient.style.left = e.pageX - shiftX + 'px';
         ingredient.style.top = e.pageY - shiftY + 'px';
@@ -102,7 +105,7 @@ function move(e) {
         var border = 600;
         ingredient.style.position = 'static';
         var parentClass = '';
-        if (border >= e.pageX){
+        if (border <= parseInt(ingredient.style.left)){
             addClass(ingredient, 'to');
             removeClass(ingredient, 'from');
             parentClass = 'boiler';
@@ -110,6 +113,7 @@ function move(e) {
             addClass(ingredient, 'from');
             removeClass(ingredient, 'to');
             parentClass = 'ingredients';
+            filterInput(filterValue);
         }
         document.getElementsByClassName(parentClass)[0].appendChild(ingredient);
         setFormula();
@@ -125,17 +129,20 @@ function getCoords(elem) {
     };
 }
 
+var filterValue = '';
 document.getElementById('filter').onkeyup = function () {
-    this.setAttribute('value', this.value);
-    filterInput(this.value);
+    filterValue = this.value;
+    this.setAttribute('value', filterValue);
+    filterInput(filterValue);
 }
 
 var closing = document.getElementsByClassName('close')[0];
 closing.onclick = function () {
     var f = document.getElementById('filter');
-    f.setAttribute('value', '');
-    f.value = '';
-    filterInput('');
+    filterValue = '';
+    f.setAttribute('value', filterValue);
+    f.value = filterValue;
+    filterInput(filterValue);
 }
 
 var ingredients = document.getElementsByClassName('ingredient');
