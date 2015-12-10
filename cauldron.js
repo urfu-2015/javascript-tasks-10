@@ -9,6 +9,9 @@ var allElements = document.getElementsByTagName('li');
         var listName = element.parentElement.getAttribute('class');
         listName = (listName === 'list1') ? 'list2' : 'list1';
         var list = document.getElementsByClassName(listName)[0];
+        element.childNodes[1].nodeValue = element.childNodes[0].childNodes[0].nodeValue +
+                                        element.childNodes[1].nodeValue;
+        element.childNodes[0].childNodes[0].nodeValue = "";
         list.appendChild(element);
         var list2 = document.querySelector('.list2');
         var children = [].slice.call(list2.children);
@@ -76,5 +79,8 @@ closeIcon.onclick = function () {
     searchBox.value = '';
     for (var child of children) {
         child.style.display = 'list-item';
+        child.childNodes[1].nodeValue = child.childNodes[0].childNodes[0].nodeValue +
+                                        child.childNodes[1].nodeValue;
+        child.childNodes[0].childNodes[0].nodeValue = "";
     }
 };
