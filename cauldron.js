@@ -14,6 +14,7 @@ cards.forEach(
   }
 );
 
+
 if (!String.prototype.startsWith) {
     String.prototype.startsWith = function(searchString, position) {
         position = position || 0;
@@ -39,7 +40,11 @@ function allElementAre(elementsRequired, allElements) {
             return false;
         }
     }
-    return true;
+    if (elementsRequired.length === allElements.length) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 PossibleResult.prototype.setAnswer = function (elementsInCauldron) {
@@ -61,7 +66,7 @@ PossibleResult.prototype.setAnswer = function (elementsInCauldron) {
     if (this._answers.length > 0) {
         return this._answers[0].result;
     } else {
-        return 'Надо больше ингредиентов';
+        return 'Сочетания такого нет';
     }
 };
 
@@ -90,32 +95,33 @@ reload();
 
 var filterRemover = document.querySelector('.filterRemover');
 
-filterRemover.onclick = function () {
+filterRemover.addEventListener('click', function () {
+    console.log('here');
     var mixtureElements = [].slice.call(leftSide.querySelectorAll('.card'));
     mixtureElements.forEach(
         function (elem) {
             elem.style.display = 'block';
         }
-    )
-};
+    );
+}, false);
 
 var filterTextArea = document.getElementById('filter');
-filterTextArea.oninput = function () {
-    if (filterTextArea.value.length === 0)
-    {
-        filterRemover.onclick();
-        return;
-    }
-    [].slice.call(leftSide.querySelectorAll('.card')).forEach(
-        function (elem) {
-            if (!elem.innerText.startsWith(filterTextArea.value)) {
-                elem.style.display = 'none';
-            } else {
-                elem.style.display = 'block';
-            }
+filterTextArea.addEventListener('input', function () {
+        if (filterTextArea.value.length === 0)
+        {
+            filterRemover.click();
+            return;
         }
-    );
-};
+        [].slice.call(leftSide.querySelectorAll('.card')).forEach(
+            function (elem) {
+                if (!elem.innerText.startsWith(filterTextArea.value)) {
+                    elem.style.display = 'none';
+                } else {
+                    elem.style.display = 'block';
+                }
+            }
+        );
+    }, false);
 
 function mouseDownHandler(e) {
     var curElem = e.target;
@@ -124,6 +130,8 @@ function mouseDownHandler(e) {
     var shiftY = e.pageY - coords.top;
 
     curElem.style.position = 'absolute';
+    curElem.style.cursor = '-webkit-grabbing';
+    curElem.style.cursor = '-moz-grabbing.';
     document.body.appendChild(curElem);
     moveAt(e);
 
