@@ -3,3 +3,8 @@
 {
     width: 25px;
 }
+
+.highlighted
+{
+	color: red;
+}
