@@ -46,7 +46,9 @@ searchBox.oninput = function () {
     var children = [].slice.call(list1.children);
     for (var child of children) {
         console.log(searchBox.value, child.childNodes[0].nodeValue.slice(0, searchBox.value.length));
-        if (searchBox.value !== child.childNodes[0].nodeValue.slice(0, searchBox.value.length)) {
+        if (searchBox.value === child.childNodes[0].nodeValue.slice(0, searchBox.value.length)) {
+            child.style.display = 'list-item';
+        } else {
             child.style.display = 'none';
         }
     }
@@ -56,6 +58,7 @@ var closeIcon = document.getElementsByClassName('close')[0];
 closeIcon.onclick = function () {
     var list1 = document.querySelector('.list1');
     var children = [].slice.call(list1.children);
+    searchBox.value = '';
     for (var child of children) {
         child.style.display = 'list-item';
     }
