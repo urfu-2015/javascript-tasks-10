@@ -2,22 +2,20 @@
 
 var formulas = window.formulas;
 
-var i = 0;
-var print = document.getElementsByTagName('li');
+var allElements = document.getElementsByTagName('li');
 
-[].slice.call(print).forEach(element => {
+[].slice.call(allElements).forEach(element => {
     element.onclick = function () {
         var listName = element.parentElement.getAttribute('class');
         listName = (listName === 'list1') ? 'list2' : 'list1';
         var list = document.getElementsByClassName(listName)[0];
         list.appendChild(element);
-        var print = document.querySelector('.list2');
-        var children = [].slice.call(print.children);
+        var list2 = document.querySelector('.list2');
+        var children = [].slice.call(list2.children);
         var result;
         var elementsMatched = 0;
         for (var formula of formulas) {
             var elements = formula.elements;
-            var elementIndex;
             for (var _element of elements) {
                 var isElementFound = false;
                 for (var child of children) {
@@ -41,3 +39,24 @@ var print = document.getElementsByTagName('li');
         resultNode.childNodes[0].nodeValue = result === undefined ? "" : result;
     };
 });
+
+var searchBox = document.getElementById('searchbox');
+searchBox.oninput = function () {
+    var list1 = document.querySelector('.list1');
+    var children = [].slice.call(list1.children);
+    for (var child of children) {
+        console.log(searchBox.value, child.childNodes[0].nodeValue.slice(0, searchBox.value.length));
+        if (searchBox.value !== child.childNodes[0].nodeValue.slice(0, searchBox.value.length)) {
+            child.style.display = 'none';
+        }
+    }
+};
+
+var closeIcon = document.getElementsByClassName('close')[0];
+closeIcon.onclick = function () {
+    var list1 = document.querySelector('.list1');
+    var children = [].slice.call(list1.children);
+    for (var child of children) {
+        child.style.display = 'list-item';
+    }
+};
