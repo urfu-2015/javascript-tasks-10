@@ -1,88 +1,94 @@
 'use strict';
 
+
 // Получаем комбинации элементов
 var formulas = window.formulas;
 
 // Механизмы котла описывать здесь
 
+var Cauldron = function () {
+    this._cauldron = document.querySelector('[data-cauldron=cauldron]');
+    this._ingredients = document.querySelector('[data-cauldron=ingredients]');
+    this._search = document.querySelector('[data-cauldron=search]');
+    this._elements = document.querySelectorAll('[data-cauldron] [data-element]');
+    this._result = document.querySelector('[data-cauldron=result]');
+    this._containers = [this._cauldron, this._ingredients];
 
-var allowDrop = ev => {
-    ev.preventDefault();
-    ev.currentTarget.classList.add('border');
+    this._prepareDom();
+    this._mix();
 };
 
-var drag = ev => ev.dataTransfer.setData("text", ev.target.dataset.element);
-
-var drop = ev => {
-    ev.preventDefault();
-    var data = ev.dataTransfer.getData("text");
-    var node = document.querySelector('li[data-element=' + data + ']');
-    moveElement(node);
-    node.parentElement.classList.remove('border');
+Cauldron.prototype._allowDrop = function (e) {
+    e.preventDefault();
+    e.currentTarget.classList.add('dragover-highlight');
 };
 
-var cauldron = document.getElementById('cauldron');
-cauldron.addEventListener('dragover', allowDrop, false);
-cauldron.addEventListener('drop', drop, false);
-cauldron.addEventListener('dragleave', () => cauldron.classList.remove('border'), false);
+Cauldron.prototype._drag = function (e) {
+    e.dataTransfer.setData("text", e.target.dataset.element);
+};
 
-var ingredients = document.getElementById('ingredients');
-ingredients.addEventListener('dragover', allowDrop, false);
-ingredients.addEventListener('drop', drop, false);
-ingredients.addEventListener('dragleave', () => ingredients.classList.remove('border'), false);
+Cauldron.prototype._drop = function (e) {
+    e.preventDefault();
+    var data = e.dataTransfer.getData("text");
+    var node = document.querySelector('[data-element=' + data + ']');
+    this._moveElement(node);
+    node.parentElement.classList.remove('dragover-highlight');
+};
 
-var search = document.getElementById('search');
-
-var mix = () => {
-    var cauldronLis = document.querySelectorAll('#cauldron > li');
-    var cauldronElements = [].slice.call(cauldronLis).map(node => node.dataset.element);
+Cauldron.prototype._mix = function () {
+    var cauldronEls = document.querySelectorAll('[data-cauldron=cauldron] [data-element]');
+    var cauldronNames = [].slice.call(cauldronEls).map(node => node.dataset.element);
     var res = formulas.filter(formula =>
-        formula.elements.every(element => cauldronElements.indexOf(element) >= 0))
+            formula.elements.every(element => cauldronNames.indexOf(element) >= 0))
         .sort((a, b) => b.elements.length - a.elements.length)[0];
-    document.getElementById('result').innerHTML = res ? res.result : '';
+    this._result.innerHTML = res ? res.result : '';
 };
 
-var setHiddenClass = node => {
-    var startIndex = node.dataset.value.indexOf(search.value);
+Cauldron.prototype._setHiddenClass = function (node) {
+    var startIndex = node.dataset.value.indexOf(this._search.value);
     if (startIndex < 0) {
         node.classList.add('hidden');
     } else {
         node.classList.remove('hidden');
         var value = node.dataset.value;
         node.innerHTML = value.substring(0, startIndex) + '<span class="highlight">' +
-            value.substring(startIndex, search.value.length + startIndex) + '</span>' +
-            value.substring(search.value.length + startIndex);
+            value.substring(startIndex, this._search.value.length + startIndex) + '</span>' +
+            value.substring(this._search.value.length + startIndex);
     }
 };
 
-var moveElement = (node) => {
-    switch (node.parentElement.id) {
+Cauldron.prototype._moveElement = function (node) {
+    switch (node.parentElement.dataset.cauldron) {
         case 'cauldron':
-            cauldron.removeChild(node);
-            ingredients.appendChild(node);
-            setHiddenClass(node);
+            this._cauldron.removeChild(node);
+            this._ingredients.appendChild(node);
+            this._setHiddenClass(node);
             break;
         case 'ingredients':
-            ingredients.removeChild(node);
-            cauldron.appendChild(node);
+            this._ingredients.removeChild(node);
+            this._cauldron.appendChild(node);
             node.innerHTML = node.dataset.value;
             break;
     }
-    mix();
+    this._mix();
 };
 
-var lis = document.querySelectorAll('li');
-[].slice.call(lis).forEach(node => {
-    node.addEventListener('click', moveElement.bind(this, node), false);
-    node.addEventListener('dragstart', drag, false);
-    node.draggable = true;
-    node.dataset.value = node.innerHTML;
-});
+Cauldron.prototype._prepareDom = function () {
+    this._containers.forEach((cnt) => {
+        cnt.addEventListener('dragover', this._allowDrop, false);
+        cnt.addEventListener('drop', this._drop.bind(this), false);
+        cnt.addEventListener('dragleave', () => cnt.classList.remove('dragover-highlight'), false);
+        cnt.addEventListener('click', e => this._moveElement(e.target), false);
+    });
 
+    [].slice.call(this._elements).forEach(node => {
+        node.addEventListener('dragstart', this._drag, false);
+        node.draggable = true;
+        node.dataset.value = node.innerHTML;
+    });
 
-search.addEventListener('search', () => {
-    var ingredientLis = document.querySelectorAll('#ingredients > li');
-    [].slice.call(ingredientLis).map(setHiddenClass);
-}, false);
-
-mix();
+    this._search.addEventListener('search', () => {
+        var ingredientLis = document.querySelectorAll('[data-cauldron=ingredients] [data-element]');
+        [].slice.call(ingredientLis).map(this._setHiddenClass, this);
+    }, false);
+};
