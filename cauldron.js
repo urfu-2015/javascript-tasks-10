@@ -86,12 +86,13 @@ function move(e) {
     if (ingredient.matches('span.marked')) {
         ingredient = ingredient.parentElement;
     }
+    var parent = ingredient.parentElement;
     var coords = getCoords(ingredient);
     var shiftX = e.pageX - coords.left;
     var shiftY = e.pageY - coords.top;
     ingredient.style.position = 'absolute';
+    insertEmpty(ingredient, parent);
     document.body.appendChild(ingredient);
-    console.log(ingredient);
     moveAt(e);
     function moveAt(e) {
         ingredient.style.left = e.pageX - shiftX + 'px';
@@ -102,6 +103,7 @@ function move(e) {
     };
     ingredient.onmouseup = function() {
         ingredient.innerHTML = ingredient.textContent;
+        parent.removeChild(emptyElement);
         var border = 600;
         ingredient.style.position = 'static';
         var parentClass = '';
@@ -129,6 +131,25 @@ function getCoords(elem) {
     };
 }
 
+function indexOf(parentNodes, child) {
+    for (var i = 0; i < parentNodes.length; i++) {
+        if (parentNodes[i] == child)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+function insertEmpty(ingredient, parent) {
+    var className = parent.className == 'ingredients' ? 'from' : 'to';
+    var listCurIngredients = document.getElementsByClassName(className);
+    var index = indexOf(listCurIngredients, ingredient);
+    addClass(emptyElement, className);
+    ingredient = parent.insertBefore(emptyElement, listCurIngredients[index]);
+    removeClass(emptyElement, className);
+}
+
 var filterValue = '';
 document.getElementById('filter').onkeyup = function () {
     filterValue = this.value;
@@ -145,6 +166,8 @@ closing.onclick = function () {
     filterInput(filterValue);
 }
 
+var emptyElement = document.createElement('div');
+addClass(emptyElement, 'ingredient');
 var ingredients = document.getElementsByClassName('ingredient');
 for (var i = 0; i < ingredients.length; i++) {
     var ingredient = ingredients[i];

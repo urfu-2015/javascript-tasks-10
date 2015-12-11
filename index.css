@@ -119,6 +119,8 @@ img
 {
     -webkit-user-select: none;
     -moz-user-select: none;
+    height: 30px;
+    width: 200px;
 }
 
 @font-face
