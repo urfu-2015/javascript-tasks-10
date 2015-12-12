@@ -12,9 +12,8 @@
                 <tr>
                     <th>
                         <!-- Поле для фильтрации алхимических элементов -->
-                        <input id="filter" type="text" oninput="filter(this)">
-                        <img class="cross" src="img/cross.png" alt="Закрыть"
-                            onclick="reset()">
+                        <input id="filter" type="text">
+                        <img class="cross" src="img/cross.png" alt="Закрыть">
                     </th>
                     <th>
                         <!-- Результат смешивания в котле – новый элемент -->
@@ -27,31 +26,31 @@
                     <td>
                         <!-- Список доступных элементов (два мы уже положили в котёл)-->
                         <ul class="available">
-                            <li class="ingredient" data-element="earth" onclick="moveIngredient(this)">
+                            <li class="ingredient" data-element="earth">
                                 земля
                             </li>
-                            <li class="ingredient" data-element="air" onclick="moveIngredient(this)">
+                            <li class="ingredient" data-element="air">
                                 воздух
                             </li>
-                            <li class="ingredient" data-element="dust" onclick="moveIngredient(this)">
+                            <li class="ingredient" data-element="dust">
                                 пыль
                             </li>
-                            <li class="ingredient" data-element="swamp" onclick="moveIngredient(this)">
+                            <li class="ingredient" data-element="swamp">
                                 болото
                             </li>
-                            <li class="ingredient" data-element="energy" onclick="moveIngredient(this)">
+                            <li class="ingredient" data-element="energy">
                                 энергия
                             </li>
-                            <li class="ingredient" data-element="stone" onclick="moveIngredient(this)">
+                            <li class="ingredient" data-element="stone">
                                 камень
                             </li>
-                            <li class="ingredient" data-element="life" onclick="moveIngredient(this)">
+                            <li class="ingredient" data-element="life">
                                 жизнь
                             </li>
-                            <li class="ingredient" data-element="milk" onclick="moveIngredient(this)">
+                            <li class="ingredient" data-element="milk">
                                 молоко
                             </li>
-                            <li class="ingredient" data-element="sourcream" onclick="moveIngredient(this)">
+                            <li class="ingredient" data-element="sourcream">
                                 сметанка
                             </li>
                         </ul>
@@ -59,9 +58,9 @@
                     <td>
                         <!-- Элементы в котле для смешивания -->
                         <ul class="cauldron">
-                            <li class="ingredient" data-element="fire" onclick="moveIngredient(this)">огонь
+                            <li class="ingredient" data-element="fire">огонь
                             </li>
-                            <li class="ingredient" data-element="water" onclick="moveIngredient(this)">вода
+                            <li class="ingredient" data-element="water">вода
                             </li>
                         </ul>
                         <img class="cauldron" src="img/cauldron.png" alt="Котёл">

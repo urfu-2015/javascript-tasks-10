@@ -29,13 +29,14 @@ ul
 {
     text-align: center;
     font: 20px Malahit, serif;
-    cursor: default;
+    cursor: pointer;
 }
 
 .available .ingredient
 {
     border-width: 0;
     border-bottom: 20px solid;
+    border-image: url(img/shelf.png) 0 0 20 0;
     -moz-border-image: url(img/shelf.png) 0 0 20 0;
     -webkit-border-image: url(img/shelf.png) 0 0 20 0;
 }
