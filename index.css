@@ -1,15 +1,18 @@
-body,
 header,
 main,
 .elements,
 .cauldron
 {
+    user-select: none;
     display: flex;
 }
 
 body
 {
-    flex-direction: column;
+    -webkit-user-select: none;  /* Chrome all / Safari all */
+    -moz-user-select: none;     /* Firefox all */
+    -ms-user-select: none;      /* IE 10+ */
+    user-select: none;
 }
 
 header
@@ -48,7 +51,6 @@ div[data-element],
     margin: 18px;
     width: 80px;
     border-radius: 80px;
-    background-color: rgba(150, 50, 50, .5);
     text-align: center;
     color: white;
 }
@@ -56,4 +58,59 @@ div[data-element],
 .elements div[data-element] span
 {
     color: darkgreen;
+}
+
+.earth
+{
+    background-color: rgba(89, 51, 19, .8);
+}
+
+.dust
+{
+    background: linear-gradient(to top, #595959, #fefcea)
+}
+
+.air
+{
+    background: linear-gradient(to top, #fefcea, #476dd6)
+}
+
+.swamp
+{
+    background-color: rgba(40, 61, 0, .8);
+}
+
+.energy
+{
+    background: linear-gradient(to top, #000096, #f1da36, #fefcea)
+}
+
+.stone
+{
+    background: linear-gradient(to top, darkcyan, #593313);
+}
+
+div[data-element].life
+{
+    color: lightblue;
+}
+
+div[data-element].milk
+{
+     color: black;
+}
+
+div[data-element].sourcream
+{
+    color: blue;
+}
+
+.fire
+{
+    background: linear-gradient(to top, #000, #ff2400)
+}
+
+.water
+{
+    background: linear-gradient(to top,  blue, darkblue)
 }
