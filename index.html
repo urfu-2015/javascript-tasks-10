@@ -4,49 +4,46 @@
         <meta charset="utf-8">
         <title>Котёл алхимика</title>
         <link rel="stylesheet" href="index.css">
+        <link rel="stylesheet" href="font-awesome-4.4.0/css/font-awesome.css">
     </head>
     <body>
-        <!-- Пример вёрстки котла для экспериментов-->
-        <table>
-            <thead>
-                <tr>
-                    <th>
-                        <!-- Поле для фильтрации алхимических элементов -->
-                        <input>
-                    </th>
-                    <th>
-                        <!-- Результат смешивания в котле – новый элемент -->
-                        <span>Пар</span>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
+        <main>
+            <section>
+                <article>
+                    <input class="ingredients-filter" type="text" placeholder="ингредиент">
+                    <label for="filter-exit"><span class="fa fa-times"></span></label>
+                    <input id="filter-exit" class="invisible-input" name="filter-exit" type="radio">
+                    <button type="button" class="clear-cauldron">Очистить котел</button>
+                </article>
+                <article class="ingredients">
+                    <div class="available-ingredients">
                         <!-- Список доступных элементов (два мы уже положили в котёл)-->
-                        <ul>
-                            <li data-element="earth">земля</li>
-                            <li data-element="air">воздух</li>
-                            <li data-element="dust">пыль</li>
-                            <li data-element="swamp">болото</li>
-                            <li data-element="energy">энергия</li>
-                            <li data-element="stone">камень</li>
-                            <li data-element="life">жизнь</li>
-                            <li data-element="milk">молоко</li>
-                            <li data-element="sourcream">сметанка</li>
+                        <h3>Доступные ингредиенты</h3>
+                        <ul class="ingredients-list">
+                            <li data-element="earth" class="ingredient">земля</li>
+                            <li data-element="air" class="ingredient">воздух</li>
+                            <li data-element="dust" class="ingredient">пыль</li>
+                            <li data-element="swamp" class="ingredient">болото</li>
+                            <li data-element="energy" class="ingredient">энергия</li>
+                            <li data-element="stone" class="ingredient">камень</li>
+                            <li data-element="life" class="ingredient">жизнь</li>
+                            <li data-element="milk" class="ingredient">молоко</li>
+                            <li data-element="sourcream" class="ingredient">сметанка</li>
                         </ul>
-                    </td>
-                    <td>
-                        <!-- Элементы в котле для смешивания -->
-                        <ul>
-                            <li data-element="fire">огонь</li>
-                            <li data-element="water">вода</li>
+                    </div>
+                    <div class="used-ingredients">
+                        <h3>Использованные ингредиенты</h3>
+                        <ul class="ingredients-list">
+                            <li data-element="fire" class="ingredient">огонь</li>
+                            <li data-element="water" class="ingredient">вода</li>
                         </ul>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
+                    </div>
+                </article>
+                <article class="potion">
+                    <p>Пар</p>
+                </article>
+            </section>
+        </main>
         <script src="formulas.js"></script>
         <script src="cauldron.js"></script>
     </body>

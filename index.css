@@ -1,1 +1,154 @@
+body
+{
+    background: url(images/background.jpg) 50% 35% no-repeat;
+    color: #fff;
+}
 
+.ingredients-filter
+{
+    text-align: center;
+    width: 20%;
+}
+
+.invisible-input,
+.invisible-ingredient
+{
+    display: none;
+}
+
+.ingredients
+{
+    width: 85%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.available-ingredients,
+.used-ingredients
+{
+    height: 500px;
+}
+
+.available-ingredients,
+.used-ingredients,
+.potion
+{
+    width: 400px;
+    text-align: center;
+    padding: 10px;
+}
+
+.ingredients-list
+{
+    list-style-type: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-between;
+    width: 400px;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+.ingredient
+{
+    background-image: url(images/bottle-sprite.png);
+    width: 90px;
+    height: 90px;
+    text-align: center;
+    margin: 10px;
+}
+
+[data-element='earth']
+{
+    background-position: -5px -5px;
+}
+
+[data-element='air']
+{
+    background-position: -106px -5px;
+}
+
+[data-element='dust']
+{
+    background-position: -206px -5px;
+}
+
+[data-element='swamp']
+{
+    background-position: -306px -5px;
+}
+
+[data-element='energy']
+{
+    background-position: -406px -5px;
+}
+
+[data-element='stone']
+{
+    background-position: -506px -5px;
+}
+
+[data-element='life']
+{
+    background-position: -606px -5px;
+}
+
+[data-element='milk']
+{
+    background-position: -700px -5px;
+}
+
+[data-element='sourcream']
+{
+    background-position: -791px -5px;
+}
+
+[data-element='fire']
+{
+    background-position: -506px -5px;
+}
+
+[data-element='water']
+{
+    background-position: -306px -5px;
+}
+
+.potion
+{
+    position: absolute;
+    top: 83%;
+    left: 65%;
+    font-size: 50px;
+    width: 230px;
+    height: 120px;
+    padding: 0;
+}
+
+.potion p
+{
+    margin: 0;
+}
+
+[for='clear-cauldron']
+{
+    font-size: 25px;
+    padding: 5px 10px;
+    border: 1px solid #fff;
+    border-radius: 10px;
+    position: relative;
+    left: 64%;
+    top: 10px;
+}
+
+.clear-cauldron
+{
+    font-size: 20px;
+    color: #fff;
+    background-color: #5e2612;
+    border: 1px solid #8b5a00;
+    border-radius: 10px;
+    position: relative;
+    left: 64%;
+    top: 10px;
+}
