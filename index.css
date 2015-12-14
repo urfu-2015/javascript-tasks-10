@@ -1,1 +1,131 @@
+html,
+body
+{
+    width: 99%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-image: url(http://luxfon.com/large/201203/7222.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
 
+.ingredient,
+.result
+{
+    font-family: 'Anfisa Grotesk';
+    font-size: 2em;
+    color: #ffb01a;
+    line-height: 30px;
+    text-shadow: 1px 1px 2px #000, 0 0 1em #000;
+}
+
+input
+{
+    width: 150px;
+    left: 80px;
+}
+
+div,
+input,
+img
+{
+    position: absolute;
+}
+
+.filterWrap,
+.result
+{
+    top: 20px;
+}
+
+.filterWrap,
+.ingredients
+{
+    left: 200px;
+}
+
+.boiler,
+.ingredients
+{
+    top: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.result,
+.boiler
+{
+    left: 700px;
+}
+
+.ingredients div,
+.boiler div,
+.result
+{
+    position: relative;
+    align-self: center;
+    margin-left: 100px;
+}
+
+.boiler
+{
+    align-items: flex-end;
+}
+
+img
+{
+    height: 220px;
+    top: 450px;
+    left: 730px;
+}
+
+.toBoiler,
+.fromBoiler
+{
+    height: 100%;
+}
+
+.close
+{
+    background: url('http://bit.ly/1SLkxCs') no-repeat;
+    background-size: 10px;
+    background-position: 0 0;
+    width: 10px;
+    height: 10px;
+    left: 220px;
+    top: 7px;
+}
+
+.close:hover
+{
+    cursor: pointer;
+}
+
+.noDisplay
+{
+    display: none;
+}
+
+.marked
+{
+    font-weight: bold;
+    color: #ff0;
+}
+
+.ingredient
+{
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    height: 30px;
+    width: 200px;
+    cursor: pointer;
+}
+
+@font-face
+{
+    src: url('Anfisa_Grotesk.ttf');
+    font-family: 'Anfisa Grotesk';
+}
