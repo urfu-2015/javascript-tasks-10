@@ -3,11 +3,11 @@
 // Получаем комбинации элементов
 var formulas = window.formulas;
 
-function getResult(ingredientsInBoiler) {
+function getResultOfMix(ingredientsInBoiler) {
     if (ingredientsInBoiler.length === 0) {
         return 'В котле пусто!';
     }
-    var result = getArray(formulas.length);
+    var result = createArrayOfArrays(formulas.length);
     for (var i = 0; i < ingredientsInBoiler.length; i++) {
         var ingredient = ingredientsInBoiler[i];
         for (var index in formulas) {
@@ -40,11 +40,11 @@ function setFormula() {
     for (var i = 0; i < boiler.length; i++) {
         ingredientsInBoiler.push(boiler[i].getAttribute('data-element'));
     }
-    var result = getResult(ingredientsInBoiler);
+    var result = getResultOfMix(ingredientsInBoiler);
     document.getElementsByClassName('result')[0].textContent = result;
 }
 
-function getArray(size) {
+function createArrayOfArrays(size) {
     var arr = [];
     for (var i = 0; i < size; i++) {
         arr.push([]);
@@ -52,7 +52,7 @@ function getArray(size) {
     return arr;
 }
 
-function filterInput (text) {
+function filterInput(text) {
     if (!text) {
         addClass(closing, 'noDisplay');
     } else {
@@ -149,8 +149,7 @@ function getCoords(elem) {
 
 function indexOf(parentNodes, child) {
     for (var i = 0; i < parentNodes.length; i++) {
-        if (parentNodes[i] == child)
-        {
+        if (parentNodes[i] == child) {
             return i;
         }
     }
