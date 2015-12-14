@@ -91,7 +91,7 @@ function move(e) {
     var shiftX = e.pageX - coords.left;
     var shiftY = e.pageY - coords.top;
     ingredient.style.position = 'absolute';
-    insertEmpty(ingredient, parent);
+    var index = insertEmpty(ingredient, parent);
     document.body.appendChild(ingredient);
     moveAt(e);
     function moveAt(e) {
@@ -103,21 +103,37 @@ function move(e) {
     };
     ingredient.onmouseup = function() {
         ingredient.innerHTML = ingredient.textContent;
+        var className = ingredient.className.indexOf('from') == -1 ? 'to' : 'from';
+        var currentList = document.getElementsByClassName(className);
+        var current = currentList[index];
         parent.removeChild(emptyElement);
         var border = 600;
         ingredient.style.position = 'static';
-        var parentClass = '';
+        var parentClass = parent.className;
+        var isChanged = false;
         if (border <= parseInt(ingredient.style.left)){
-            addClass(ingredient, 'to');
-            removeClass(ingredient, 'from');
-            parentClass = 'boiler';
+            if (parent.className != 'ingredients' && (index != currentList.length - 1)) {
+                parent.insertBefore(ingredient, current);
+                isChanged = true;
+            } else {
+                addClass(ingredient, 'to');
+                removeClass(ingredient, 'from');
+                parentClass = 'boiler';
+            }
         } else {
-            addClass(ingredient, 'from');
-            removeClass(ingredient, 'to');
-            parentClass = 'ingredients';
+            if (parent.className != 'boiler' && (index != currentList.length - 1)) {
+                parent.insertBefore(ingredient, current);
+                isChanged = true;
+            } else {
+                addClass(ingredient, 'from');
+                removeClass(ingredient, 'to');
+                parentClass = 'ingredients';
+            }
             filterInput(filterValue);
         }
-        document.getElementsByClassName(parentClass)[0].appendChild(ingredient);
+        if (!isChanged) {
+            document.getElementsByClassName(parentClass)[0].appendChild(ingredient);
+        }
         setFormula();
         ingredient.onmouseup = null;
     };
@@ -148,6 +164,7 @@ function insertEmpty(ingredient, parent) {
     addClass(emptyElement, className);
     ingredient = parent.insertBefore(emptyElement, listCurIngredients[index]);
     removeClass(emptyElement, className);
+    return index;
 }
 
 var filterValue = '';

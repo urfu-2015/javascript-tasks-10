@@ -121,6 +121,7 @@ img
     -moz-user-select: none;
     height: 30px;
     width: 200px;
+    cursor: pointer;
 }
 
 @font-face
