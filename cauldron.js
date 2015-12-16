@@ -11,8 +11,22 @@ var warehouse = {
     get node() {
         return document.querySelector('tr td:nth-child(1) ul');
     }
-
 };
+
+var warehouseCopy = {
+    earth: 'земля',
+    air: 'воздух',
+    dust: 'пыль',
+    swamp: 'болото',
+    energy: 'энергия',
+    stone: 'камень',
+    life: 'жизнь',
+    milk: 'молоко',
+    sourcream: 'сметанка',
+    fire: 'огонь',
+    water: 'вода'
+};
+
 var cauldron = {
     get elems() {
         return document.querySelectorAll('tr td:nth-child(2) ul li');
@@ -116,6 +130,7 @@ function combinationChecker() {
 function inputHandler(event) {
     console.log(inputNode.value);
     for (var i = 0; i < warehouse.elems.length; ++i) {
+        warehouse.elems[i].innerHTML = warehouseCopy[warehouse.elems[i].dataset.element];
         var currElem = warehouse.elems[i].innerHTML;
         if (currElem.search(inputNode.value) === -1) {
             warehouse.elems[i].style.display = 'none';
