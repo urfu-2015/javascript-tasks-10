@@ -19,11 +19,8 @@ function arrayEq(firstArray, secondArray) {
 
 function clearFromSpan(ingredients, from) {
     for (var i = 0; i < ingredients.length; i++) {
-        if (ingredients[i].innerHTML.indexOf('span') + 1) {
-            var clearedString =
-                ingredients[i].innerHTML.replace(/<span class="highlight">/, '')
-                    .replace(/<\/span>/, '');
-            document.querySelectorAll(from)[i].innerHTML = clearedString;
+        if (ingredients[i].innerHTML.indexOf('highlight') + 1) {
+            document.querySelectorAll(from)[i].querySelector('span').classList.remove('highlight');
         }
     }
 }
