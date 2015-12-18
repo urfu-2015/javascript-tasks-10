@@ -6,47 +6,52 @@
         <link rel="stylesheet" href="index.css">
     </head>
     <body>
-        <!-- Пример вёрстки котла для экспериментов-->
-        <table>
-            <thead>
-                <tr>
-                    <th>
-                        <!-- Поле для фильтрации алхимических элементов -->
-                        <input>
-                    </th>
-                    <th>
-                        <!-- Результат смешивания в котле – новый элемент -->
-                        <span>Пар</span>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <!-- Список доступных элементов (два мы уже положили в котёл)-->
-                        <ul>
-                            <li data-element="earth">земля</li>
-                            <li data-element="air">воздух</li>
-                            <li data-element="dust">пыль</li>
-                            <li data-element="swamp">болото</li>
-                            <li data-element="energy">энергия</li>
-                            <li data-element="stone">камень</li>
-                            <li data-element="life">жизнь</li>
-                            <li data-element="milk">молоко</li>
-                            <li data-element="sourcream">сметанка</li>
-                        </ul>
-                    </td>
-                    <td>
-                        <!-- Элементы в котле для смешивания -->
-                        <ul>
-                            <li data-element="fire">огонь</li>
-                            <li data-element="water">вода</li>
-                        </ul>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
+        <input type="search" id="filter">
+        <main>
+            <div class="free-elements">
+                <p data-element="earth" class="element">
+                    <span>земля</span>
+                    <img src="img/dirt.png" alt="">
+                </p>
+                <p data-element="air" class="element">
+                    <span>воздух</span>
+                    <img src="img/air.png" alt="">
+                </p>
+                <p data-element="dust" class="element">
+                    <span>пыль</span>
+                    <img src="img/dust.png" alt="">
+                </p>
+                <p data-element="swamp" class="element">
+                    <span>болото</span>
+                    <img src="img/gamp.png" alt="">
+                </p>
+                <p data-element="energy" class="element">
+                    <span>энергия</span>
+                    <img src="img/energy.png" alt="">
+                </p>
+                <p data-element="stone" class="element">
+                    <span>камень</span>
+                    <img src="img/stone.png" alt="">
+                </p>
+                <p data-element="life" class="element">
+                    <span>жизнь</span>
+                    <img src="img/life.png" alt="">
+                </p>
+                <p data-element="milk" class="element">
+                    <span>молоко</span>
+                    <img src="img/milk.png" alt="">
+                </p>
+                <p data-element="sourcream" class="element">
+                    <span>сметанка</span>
+                    <img src="img/cream.png" alt="">
+                </p>
+            </div>
+            <div class="in-boiler"></div>
+            <div class="result-ingredient">
+                Ничего не вышло
+            </div>
+            <img src="img/result.png" alt="label" id="result">
+        </main>
         <script src="formulas.js"></script>
         <script src="cauldron.js"></script>
     </body>
