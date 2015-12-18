@@ -45,8 +45,17 @@ console.log(cauldron.node);
 
 function warehouseElemHandler(event) {
     console.log('warehouse -> cauldron');
-    cauldron.node.appendChild(event.target);
-    event.target.onclick = cauldronElemHandler;
+    console.log(event.target.parentNode.nodeName);
+    var nodeToTransfer = null;
+    // Если попадаем на выделенную часть мышкой
+    if (event.target.parentNode.nodeName === 'LI') {
+        nodeToTransfer = event.target.parentNode;
+    } else {
+        nodeToTransfer = event.target;
+    }
+    nodeToTransfer.innerHTML = warehouseCopy[nodeToTransfer.dataset.element];
+    cauldron.node.appendChild(nodeToTransfer);
+    nodeToTransfer.onclick = cauldronElemHandler;
     combinationChecker();
 }
 
@@ -55,6 +64,7 @@ function cauldronElemHandler(event) {
     warehouse.node.appendChild(event.target);
     event.target.onclick = warehouseElemHandler;
     combinationChecker();
+    inputHandler();
 }
 
 for (var i = 0; i < warehouse.elems.length; ++i) {
