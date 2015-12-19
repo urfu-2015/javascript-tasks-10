@@ -41,6 +41,11 @@ ul
     -webkit-border-image: url(img/shelf.png) 0 0 20 0;
 }
 
+.hidden
+{
+    display: none;
+}
+
 img.cauldron
 {
     width: 200px;
