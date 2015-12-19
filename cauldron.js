@@ -8,12 +8,33 @@ formulas.forEach(function (obj) {
 });
 
 // Механизмы котла описывать здесь
+
+//Обработчик ввода в поле поиска
+var inputHandler = function(e) {
+    for (var i = 0; i < elements.length; i++) {
+        var inp = inputNode.value;
+        var ingredient = elements[i].textContent;
+        var match = ingredient.match(inp);
+        if (match === null) {
+            elements[i].style.display = 'none';
+        } else {
+            elements[i].style.display = 'list-item';
+            elements[i].innerHTML = elements[i].textContent.replace(inp, '<span class="red">' +
+                inp + '</span>');
+        }
+    }
+};
+
+//Проверка на существование комбинации в котле
+//Если комбинация найдена, выводит название получившегося предмета и забрасывает ингредиенты обратно на стол
 var findCombo = function() {
+    //Получение ингредиентов из котла
     var currentIngredients = [];
     for (var i = 0; i < cauldron.length; i++) {
         currentIngredients.push(cauldron[i].getAttribute('data-element'));
     }
-    var interLength = 0;
+
+    //Поиск наибольшей комбинации
     var bestMatch = [];
     ingredients.forEach(function (item) {
         var idx = 0;
@@ -22,21 +43,24 @@ var findCombo = function() {
             idx = currentIngredients.indexOf(item[i]);
             if (idx >= 0) arr.push(item[i]);
         }
-        if ((arr.length > interLength) && (JSON.stringify(arr) === JSON.stringify(item))) {
-            interLength = arr.length;
+        if ((arr.length > bestMatch.length) && (JSON.stringify(arr) === JSON.stringify(item))) {
+            bestMatch.length = arr.length;
             bestMatch = arr;
         }
     });
-    if (interLength > 0) {
+
+    //Если нашли комбинацию, то показываем получившийся предмет
+    if (bestMatch.length > 0) {
+        //Ищем название предмета по формуле
         var result = '';
         formulas.forEach(function (rec) {
             if (JSON.stringify(rec.elements) === JSON.stringify(bestMatch)) {
                 result = rec.result;
             }
         });
+
         var resultNode = document.querySelector('.result');
         resultNode.innerHTML = result;
-
         var elementsNode = document.querySelector('.elements');
         var cauldronNode = document.querySelector('.cauldron');
         //Вставка в левый столбец
@@ -46,6 +70,7 @@ var findCombo = function() {
                 elementsNode.appendChild(cauldron[i]);
             }
         }
+
         // Назначение обработчика
         for (var i = 0; i < elements.length; i++) {
             var attr = elements[i].getAttribute('data-element');
@@ -53,6 +78,7 @@ var findCombo = function() {
                 elements[i].onclick = moveToCauldron;
             }
         }
+
         //Приводим в порядок
         elements = document.querySelectorAll('.elements li');
         cauldron = document.querySelectorAll('.cauldron li');
@@ -60,9 +86,20 @@ var findCombo = function() {
 };
 var moveToCauldron = function (e) {
     var cauldronNode = document.querySelector('.cauldron');
-    cauldronNode.appendChild(e.target);
-    e.target.onclick = moveToElements;
+    var node = e.target;
+    if (node.tagName.toLowerCase() == 'span') {
+        node = node.parentNode;
+        node.innerHTML = node.textContent;
+    }
+    cauldronNode.appendChild(node);
+    node.onclick = moveToElements;
     cauldron = document.querySelectorAll('.cauldron li');
+
+    //Сбрасываем поле ввода
+    inputNode.value = '';
+    inputHandler();
+
+    //Ищем комбинацию
     findCombo();
 };
 
@@ -85,18 +122,4 @@ for (var i = 0; i < cauldron.length; i++) {
 }
 
 var inputNode = document.querySelector('input');
-inputNode.onkeyup = function (e) {
-    console.log(inputNode.value);
-    for (var i = 0; i < elements.length; i++) {
-        var inp = inputNode.value;
-        var ingredient = elements[i].textContent;
-        var match = ingredient.match(inp);
-        if (match === null) {
-            elements[i].style.display = 'none';
-        } else {
-            elements[i].style.display = 'list-item';
-            elements[i].innerHTML = elements[i].textContent.replace(inp, '<span class="red">' +
-                inp + '</span>');
-        }
-    }
-};
+inputNode.onkeyup = inputHandler;

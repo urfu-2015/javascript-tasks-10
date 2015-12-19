@@ -3,7 +3,7 @@
     color: red;
 }
 
-li
+tbody
 {
-    z-index: 3;
+    min-height: 200px;
 }
