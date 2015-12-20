@@ -63,6 +63,7 @@ var findCombo = function() {
         resultNode.innerHTML = result;
         var elementsNode = document.querySelector('.elements');
         var cauldronNode = document.querySelector('.cauldron');
+
         //Вставка в левый столбец
         for (var i = 0; i < cauldron.length; i++) {
             var attr = cauldron[i].getAttribute('data-element');
@@ -71,6 +72,10 @@ var findCombo = function() {
             }
         }
 
+        //Приводим в порядок
+        elements = document.querySelectorAll('.elements li');
+        cauldron = document.querySelectorAll('.cauldron li');
+
         // Назначение обработчика
         for (var i = 0; i < elements.length; i++) {
             var attr = elements[i].getAttribute('data-element');
@@ -78,21 +83,22 @@ var findCombo = function() {
                 elements[i].onclick = moveToCauldron;
             }
         }
-
-        //Приводим в порядок
-        elements = document.querySelectorAll('.elements li');
-        cauldron = document.querySelectorAll('.cauldron li');
     }
 };
 var moveToCauldron = function (e) {
     var cauldronNode = document.querySelector('.cauldron');
     var node = e.target;
+
+    //Убираем выделение span-ом
     if (node.tagName.toLowerCase() == 'span') {
         node = node.parentNode;
         node.innerHTML = node.textContent;
     }
+    node.innerHTML = node.textContent;
     cauldronNode.appendChild(node);
     node.onclick = moveToElements;
+
+    elements = document.querySelectorAll('.elements li');
     cauldron = document.querySelectorAll('.cauldron li');
 
     //Сбрасываем поле ввода
@@ -106,8 +112,10 @@ var moveToCauldron = function (e) {
 var moveToElements = function (e) {
     var elementsNode = document.querySelector('.elements');
     elementsNode.appendChild(e.target);
-    elements = document.querySelectorAll('.elements li');
     e.target.onclick = moveToCauldron;
+
+    elements = document.querySelectorAll('.elements li');
+    cauldron = document.querySelectorAll('.cauldron li');
 };
 
 var elements = document.querySelectorAll('.elements li');
