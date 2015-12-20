@@ -61,28 +61,28 @@ var findCombo = function() {
 
         var resultNode = document.querySelector('.result');
         resultNode.innerHTML = result;
-        var elementsNode = document.querySelector('.elements');
-        var cauldronNode = document.querySelector('.cauldron');
 
         //Вставка в левый столбец
-        for (var i = 0; i < cauldron.length; i++) {
-            var attr = cauldron[i].getAttribute('data-element');
-            if (bestMatch.indexOf(attr) >= 0) {
-                elementsNode.appendChild(cauldron[i]);
-            }
-        }
+        //var elementsNode = document.querySelector('.elements');
+        //var cauldronNode = document.querySelector('.cauldron');
+        //for (var i = 0; i < cauldron.length; i++) {
+        //    var attr = cauldron[i].getAttribute('data-element');
+        //    if (bestMatch.indexOf(attr) >= 0) {
+        //        elementsNode.appendChild(cauldron[i]);
+        //    }
+        //}
 
         //Приводим в порядок
-        elements = document.querySelectorAll('.elements li');
-        cauldron = document.querySelectorAll('.cauldron li');
+        //elements = document.querySelectorAll('.elements li');
+        //cauldron = document.querySelectorAll('.cauldron li');
 
         // Назначение обработчика
-        for (var i = 0; i < elements.length; i++) {
-            var attr = elements[i].getAttribute('data-element');
-            if (bestMatch.indexOf(attr) >= 0) {
-                elements[i].onclick = moveToCauldron;
-            }
-        }
+        //for (var i = 0; i < elements.length; i++) {
+        //    var attr = elements[i].getAttribute('data-element');
+        //    if (bestMatch.indexOf(attr) >= 0) {
+        //        elements[i].onclick = moveToCauldron;
+        //    }
+        //}
     }
 };
 var moveToCauldron = function (e) {
@@ -113,9 +113,9 @@ var moveToElements = function (e) {
     var elementsNode = document.querySelector('.elements');
     elementsNode.appendChild(e.target);
     e.target.onclick = moveToCauldron;
-
     elements = document.querySelectorAll('.elements li');
     cauldron = document.querySelectorAll('.cauldron li');
+    findCombo();
 };
 
 var elements = document.querySelectorAll('.elements li');
