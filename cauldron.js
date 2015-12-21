@@ -5,19 +5,14 @@ var freeElementContainer = document.getElementsByClassName('free-elements')[0];
 var boilerContainer = document.getElementsByClassName('in-boiler')[0];
 var resultTable = document.getElementsByClassName('result-ingredient')[0];
 var filter = document.getElementById('filter');
+var ingredients = document.getElementsByClassName('element');
 
-function sortFunction(a, b) {
-    if (a.elements.length < b.elements.length) {
-        return -1;
-    }
-    if (a.elements.length > b.elements.length) {
-        return 1;
-    }
-    return 0;
+function sortFormulas(a, b) {
+    return a.elements.length - b.elements.length;
 }
 
 function prepareRecipes() {
-    formulas.sort(sortFunction);
+    formulas.sort(sortFormulas);
     formulas.forEach(function (formula) {
         formula.counter = 0;
     })
@@ -27,14 +22,9 @@ function findResult(argument, isNew) {
     var tempResult = "";
     for (var i = 0; i < formulas.length; i++) {
         var formula = formulas[i];
-        if (isNew) {
-            if (formula.elements.indexOf(argument) !== -1) {
-                formula.counter += 1;
-            }
-        } else {
-            if (formula.elements.indexOf(argument) !== -1) {
-                formula.counter -= 1;
-            }
+        if (formula.elements.indexOf(argument) !== -1) {
+            var counter = isNew ? 1 : -1;
+            formula.counter += counter;
         }
         if (formula.counter === formula.elements.length) {
             tempResult = formula.result.toUpperCase();
@@ -48,14 +38,13 @@ function findResult(argument, isNew) {
 }
 
 var preValue = '';
-function activateFilter() {
-    filter.onkeyup = function () {
-        var value = this.value;
-        getFilteredElements(value);
-        preValue = value;
-    }
+function filterFunction () {
+    var value = this.value;
+    getFilteredElements(value);
+    preValue = value;
 }
 
+filter.addEventListener("keyup", filterFunction);
 
 function getFilteredElements(value) {
     ingredients = [].slice.call(ingredients);
@@ -80,29 +69,33 @@ function getFilteredElements(value) {
     }
 }
 
-var ingredients = document.getElementsByClassName('element');
+function changePosition(ingredient) {
+    var parentClasses = [].slice.call(ingredient.parentNode.classList);
+    if (parentClasses.indexOf('free-elements') !== -1)
+    {
+        ingredient.parentNode.removeChild(ingredient);
+        boilerContainer.appendChild(ingredient);
+        findResult(ingredient.getAttribute('data-element'), true);
+
+    } else {
+        ingredient.parentNode.removeChild(ingredient);
+        freeElementContainer.appendChild(ingredient);
+        findResult(ingredient.getAttribute('data-element'), false);
+        getFilteredElements(preValue);
+    }
+};
+
+
 function appendEvent() {
     ingredients = [].slice.call(ingredients);
     ingredients.forEach(function (ingredient) {
-        ingredient.onclick = function () {
-            var parentClasses = [].slice.call(this.parentNode.classList);
-            if (parentClasses.indexOf('free-elements') !== -1)
-            {
-                this.parentNode.removeChild(ingredient);
-                boilerContainer.appendChild(ingredient);
-                findResult(ingredient.getAttribute('data-element'), true);
-
-            } else {
-                this.parentNode.removeChild(ingredient);
-                freeElementContainer.appendChild(ingredient);
-                findResult(ingredient.getAttribute('data-element'), false);
-                getFilteredElements(preValue);
-            }
-        }
+        ingredient.addEventListener('click', function(){changePosition(ingredient)});
     });
 };
 
-activateFilter();
-prepareRecipes();
-console.log(formulas);
-appendEvent();
+function main() {
+    prepareRecipes();
+    appendEvent();
+}
+
+main();
