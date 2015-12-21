@@ -1,1 +1,108 @@
+@import 'http://webfonts.ru/import/augustatwo.css';
+body
+{
+    background-image: url(img/bg.jpg);
+    background-size: cover;
+    bottom: 0;
+}
 
+p
+{
+    display: inline-block;
+    width:95px;
+    margin: 30px 60px;
+    font-size: 20px;
+    font-family: Verdana, sans-serif;
+    text-align: center;
+    background-color: rgba(229, 255, 33, .7);
+}
+
+.free-elements > p:last-child
+{
+    margin-bottom: 0;
+}
+
+span
+{
+    display: block;
+}
+
+p > img
+{
+    width: 50px;
+}
+
+.free-elements
+{
+    padding-left: 50px;
+    padding-top: 50px;
+    background-size: cover;
+    display: inline-block;
+    width: 35%;
+    height: 90%;
+    background-image: url(img/left.gif);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.in-boiler
+{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 55%;
+    height: 50%;
+}
+
+.in-boiler > p
+{
+    margin: 5px;
+}
+
+.result-ingredient
+{
+    font-family: 'Augusta Two', fantasy;
+    color: #00d2ff;
+    text-shadow: 2px 2px 5px #000, 0 0 1em #000;
+    width: 350px;
+    height: 50px;
+    position: absolute;
+    right: 20%;
+    top: 190px;
+    z-index: 2;
+    font-size: 40px;
+    text-align: center;
+}
+
+.hide
+{
+    display: none;
+}
+
+.find
+{
+    font-weight: bold;
+    display: inline;
+}
+
+#filter
+{
+    height: 35px;
+    width: 37%;
+}
+
+#table
+{
+    position: absolute;
+    bottom: 0;
+    right: 10%;
+    width: 50%;
+}
+
+#result
+{
+    position: absolute;
+    top: 0;
+    right: 17%;
+}
