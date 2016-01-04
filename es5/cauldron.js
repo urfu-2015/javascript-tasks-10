@@ -11,31 +11,31 @@
         * @param {HTMLElement} element
         * @returns {boolean}
         */
-        isElementWithin: function (element) {
+        isElementWithin: function isElementWithin(element) {
             return this._container === element.parentElement;
         },
         /**
         * @returns {boolean}
         */
-        isContainerClear: function () {
+        isContainerClear: function isContainerClear() {
             return this._container.firstChild === null;
         },
         /**
         * @param {HTMLElement} element
         */
-        addElement: function (element) {
+        addElement: function addElement(element) {
             this._container.appendChild(element);
         },
         /**
         * @param {HTMLElement} element
         */
-        removeElement: function (element) {
+        removeElement: function removeElement(element) {
             this._container.removeChild(element);
         },
         /**
         * remove all child elements
         */
-        clearContainer: function () {
+        clearContainer: function clearContainer() {
             while (this._container.firstChild) {
                 this.removeElement(this._container.firstChild);
             }
@@ -43,23 +43,23 @@
         /**
         * @returns {Array.<HTMLElement>}
         */
-        getRenderedElements: function () {
+        getRenderedElements: function getRenderedElements() {
             return [].slice.apply(this._container.children);
         },
         /**
         * @param {string} className
         * @returns {Array.<string>}
         */
-        getNamesRenderedElements: function (className) {
+        getNamesRenderedElements: function getNamesRenderedElements(className) {
             if (this.isContainerClear()) {
                 return [];
             }
             var renderedElements = this.getRenderedElements();
-            var names = renderedElements
-                .filter(item => {
-                    return item.classList.contains(className);
-                })
-                .map(item => item.dataset.element);
+            var names = renderedElements.filter(function (item) {
+                return item.classList.contains(className);
+            }).map(function (item) {
+                return item.dataset.element;
+            });
             return names;
         }
     };
@@ -68,7 +68,7 @@
     * List of available alchemical elements
     * @constructor
     */
-    var Library = function () {
+    var Library = function Library() {
         this._container = document.querySelector('.library__elements');
         this._elements = [];
         this._timer = null;
@@ -83,34 +83,32 @@
     * @param {string} jsonUrl
     */
     Library.prototype.loadInfo = function (jsonUrl) {
-        loadJSON(jsonUrl, function (loadedElements) {
+        loadJSON(jsonUrl, (function (loadedElements) {
             this._elements = loadedElements;
             this.renderElements();
-            var mousewheelEvt = isFirefox() ? 'DOMMouseScroll' :
-                'mousewheel';
+            var mousewheelEvt = isFirefox() ? 'DOMMouseScroll' : 'mousewheel';
             this._container.addEventListener(mousewheelEvt, this._onMouseWheel);
-        }.bind(this));
+        }).bind(this));
     };
     /**
     * Render all elements with inLibrary flag
     */
     Library.prototype.renderElements = function () {
         var elementsFragment = document.createDocumentFragment();
-        this._elements
-            .filter(item => item.inLibrary)
-            .sort((a, b) => {
-                if (a.name > b.name) {
-                    return 1;
-                } else if (a.name < b.name) {
-                    return -1;
-                }
-                return 0;
-            })
-            .forEach(item => {
-                var elem = new Element(item.name);
-                elementsFragment.appendChild(elem.getElementNode());
-                elem.loadImg(item.url);
-            });
+        this._elements.filter(function (item) {
+            return item.inLibrary;
+        }).sort(function (a, b) {
+            if (a.name > b.name) {
+                return 1;
+            } else if (a.name < b.name) {
+                return -1;
+            }
+            return 0;
+        }).forEach(function (item) {
+            var elem = new Element(item.name);
+            elementsFragment.appendChild(elem.getElementNode());
+            elem.loadImg(item.url);
+        });
         this._container.appendChild(elementsFragment);
     };
     /**
@@ -141,8 +139,7 @@
     Library.prototype.addElement = function (element) {
         var renderedElements = this.getRenderedElements();
         var i = 0;
-        while (renderedElements.length > i &&
-            renderedElements[i].dataset.element < element.dataset.element) {
+        while (renderedElements.length > i && renderedElements[i].dataset.element < element.dataset.element) {
             i++;
         }
         this._container.insertBefore(element, renderedElements[i]);
@@ -154,15 +151,13 @@
         var filterVal = filter.getFilterValue();
         var regExp = new RegExp('^(' + filterVal + ')', 'gi');
         var renderedElements = this.getRenderedElements();
-        renderedElements.forEach(item => {
+        renderedElements.forEach(function (item) {
             if (!(item.dataset.element.search(regExp) + 1)) {
                 item.classList.add('hidden');
             } else {
                 item.classList.remove('hidden');
                 var elementName = item.querySelector('.element__name');
-                elementName.innerHTML = filterVal.length ?
-                    elementName.textContent.replace(regExp, '<b>$1</b>') :
-                    elementName.textContent;
+                elementName.innerHTML = filterVal.length ? elementName.textContent.replace(regExp, '<b>$1</b>') : elementName.textContent;
             }
         });
     };
@@ -175,32 +170,26 @@
         var displacement = this.getRenderedElements()[0].offsetHeight;
         var maxTop = filter.getHeight();
         var libraryClientRect = this._container.getBoundingClientRect();
-        var delta = event.detail ? event.detail * (-120) : event.wheelDelta;
+        var delta = event.detail ? event.detail * -120 : event.wheelDelta;
 
         clearTimeout(this._timer);
-        this._timer = delta > 0 ?
-            setTimeout(function () {
-                if (maxTop <= libraryClientRect.top) {
-                    return;
-                }
-                maxTop > libraryClientRect.top + displacement ?
-                    this.scrollElements(displacement) :
-                    this.scrollElements(maxTop - libraryClientRect.top);
-            }.bind(this), 66) :
-            setTimeout(function () {
-                if (window.innerHeight >= libraryClientRect.bottom) {
-                    return;
-                }
-                window.innerHeight < libraryClientRect.bottom - displacement ?
-                    this.scrollElements(-displacement) :
-                    this.scrollElements(window.innerHeight - libraryClientRect.bottom);
-            }.bind(this), 66);
+        this._timer = delta > 0 ? setTimeout((function () {
+            if (maxTop <= libraryClientRect.top) {
+                return;
+            }
+            maxTop > libraryClientRect.top + displacement ? this.scrollElements(displacement) : this.scrollElements(maxTop - libraryClientRect.top);
+        }).bind(this), 66) : setTimeout((function () {
+            if (window.innerHeight >= libraryClientRect.bottom) {
+                return;
+            }
+            window.innerHeight < libraryClientRect.bottom - displacement ? this.scrollElements(-displacement) : this.scrollElements(window.innerHeight - libraryClientRect.bottom);
+        }).bind(this), 66);
     };
 
     /**
     * @constructor
     */
-    var Formula = function () {
+    var Formula = function Formula() {
         this._container = document.querySelector('.workspace__formula');
         this._formulas = [];
     };
@@ -213,9 +202,9 @@
     * @param {string} jsonUrl
     */
     Formula.prototype.loadInfo = function (jsonUrl) {
-        loadJSON(jsonUrl, function (loadedFormulas) {
+        loadJSON(jsonUrl, (function (loadedFormulas) {
             this._formulas = loadedFormulas;
-        }.bind(this));
+        }).bind(this));
     };
     /**
     * @param {HTMLElement} element
@@ -248,16 +237,16 @@
     * Remove spare pluses between elements or on the edges
     */
     Formula.prototype.removeRedundantPluses = function () {
+        var _this = this;
+
         var pluses = this.getRenderedElements();
-        pluses
-            .filter(item => item.classList.contains('workspace__formula-plus'))
-            .forEach(item => {
-                if (item === this._container.firstElementChild ||
-                    item === this._container.lastElementChild ||
-                    item.className === item.nextElementSibling.className) {
-                    this._container.removeChild(item);
-                }
-            });
+        pluses.filter(function (item) {
+            return item.classList.contains('workspace__formula-plus');
+        }).forEach(function (item) {
+            if (item === _this._container.firstElementChild || item === _this._container.lastElementChild || item.className === item.nextElementSibling.className) {
+                _this._container.removeChild(item);
+            }
+        });
         this.calculate();
     };
     /**
@@ -272,29 +261,29 @@
             return;
         }
 
-        var formulas = this._formulas
-            .filter(item => item.elements.length <= elementsNames.length)
-            .sort((a, b) => {
-                if (a.elements.length > b.elements.length) {
-                    return -1;
-                } else if (a.elements.length < b.elements.length) {
-                    return 1;
-                }
-                return 0;
-            });
+        var formulas = this._formulas.filter(function (item) {
+            return item.elements.length <= elementsNames.length;
+        }).sort(function (a, b) {
+            if (a.elements.length > b.elements.length) {
+                return -1;
+            } else if (a.elements.length < b.elements.length) {
+                return 1;
+            }
+            return 0;
+        });
 
         var resultName = null;
         var prevRes = false;
         var prevFormulaElements = formulaRes.getFormulaElements();
 
         if (prevFormulaElements.length) {
-            prevRes = prevFormulaElements.every(item => {
+            prevRes = prevFormulaElements.every(function (item) {
                 return Boolean(elementsNames.indexOf(item) + 1);
             });
         }
 
         for (var i = 0; i < formulas.length; i++) {
-            var answ = formulas[i].elements.every(item => {
+            var answ = formulas[i].elements.every(function (item) {
                 return Boolean(elementsNames.indexOf(item) + 1);
             });
             if (answ && (formulas[i].elements.length !== prevFormulaElements.length || !prevRes)) {
@@ -324,7 +313,7 @@
     /**
     * @constructor
     */
-    var FormulaResult = function () {
+    var FormulaResult = function FormulaResult() {
         this._container = document.querySelector('.workspace__result');
         this._resultElement = null;
         this._formulaElements = [];
@@ -388,7 +377,7 @@
     * @param {string} newName
     * @constructor
     */
-    var Element = function (newName) {
+    var Element = function Element(newName) {
         this._elementTemplate = document.getElementById('element-template');
         this._element = this._elementTemplate.content.children[0].cloneNode(true);
         this._elementName = this._element.querySelector('.element__name');
@@ -402,44 +391,45 @@
         * @param {string} url
         * @param {boolean} addEvent
         */
-        loadImg: function (url, addEvent) {
-            addEvent = (typeof addEvent === 'undefined') ? true : addEvent;
+        loadImg: function loadImg(url, addEvent) {
+            var _this2 = this;
+
+            addEvent = typeof addEvent === 'undefined' ? true : addEvent;
             var img = new Image();
             img.src = url;
             img.classList.add('element__img');
 
-            img.addEventListener('load', () => {
-                this._element.replaceChild(img, this._elementImg);
-                this._elementImg = img;
+            img.addEventListener('load', function () {
+                _this2._element.replaceChild(img, _this2._elementImg);
+                _this2._elementImg = img;
                 if (addEvent) {
-                    this._elementImg.addEventListener('click', this._onElementImgClick);
+                    _this2._elementImg.addEventListener('click', _this2._onElementImgClick);
                 }
             });
-            img.addEventListener('error', () => {
-                this._elementImg.classList.add('element__img', 'img-load-failure');
+            img.addEventListener('error', function () {
+                _this2._elementImg.classList.add('element__img', 'img-load-failure');
                 if (addEvent) {
-                    this._elementImg.addEventListener('click', this._onElementImgClick);
+                    _this2._elementImg.addEventListener('click', _this2._onElementImgClick);
                 }
             });
         },
         /**
         * @returns {HTMLElement}
         */
-        getElementNode: function () {
+        getElementNode: function getElementNode() {
             return this._element;
         },
         /**
         * @param {Event} event
         * @private
         */
-        _onElementImgClick: function (event) {
+        _onElementImgClick: function _onElementImgClick(event) {
             event.preventDefault();
             if (isFirefox() && this._element.classList.contains('noclick')) {
                 this._element.classList.remove('noclick');
                 return;
             }
-            var imgClickEvent = new CustomEvent('imgElementClick',
-                { detail: { element: this._element } });
+            var imgClickEvent = new CustomEvent('imgElementClick', { detail: { element: this._element } });
             window.dispatchEvent(imgClickEvent);
         }
     };
@@ -447,7 +437,7 @@
     /**
     * @constructor
     */
-    var Filter = function () {
+    var Filter = function Filter() {
         this._filterInput = document.getElementById('filter');
         this._filterClear = document.querySelector('.filter__clear');
         this._onInputEnterText = this._onInputEnterText.bind(this);
@@ -460,7 +450,7 @@
         /**
         * @returns {number}
         */
-        getHeight: function () {
+        getHeight: function getHeight() {
             var styles = window.getComputedStyle(this._filterInput.parentElement);
             var margin = parseInt(styles.marginTop) + parseInt(styles.marginBottom);
             return this._filterInput.offsetHeight + margin;
@@ -468,22 +458,21 @@
         /**
         * @returns {string}
         */
-        getFilterValue: function () {
+        getFilterValue: function getFilterValue() {
             return this._filterInput.value;
         },
         /**
         * @returns {boolean}
         */
-        isFilterInputClear: function () {
+        isFilterInputClear: function isFilterInputClear() {
             return !this._filterInput.value.length;
         },
         /**
         * Event handler of input any symbol in input area
         * @private
         */
-        _onInputEnterText: function () {
-            this._filterInput.value.length ? this._filterClear.classList.remove('hidden') :
-                this._filterClear.classList.add('hidden');
+        _onInputEnterText: function _onInputEnterText() {
+            this._filterInput.value.length ? this._filterClear.classList.remove('hidden') : this._filterClear.classList.add('hidden');
             library.highlightElements();
         },
         /**
@@ -491,13 +480,12 @@
         * @param {Event} event
         * @private
         */
-        _onClearClick: function (event) {
+        _onClearClick: function _onClearClick(event) {
             event.preventDefault();
             this._filterInput.value = '';
             this._filterInput.dispatchEvent(new Event('input'));
         }
     };
-
 
     /**
     * Singleton for drag and drop elements
@@ -544,8 +532,7 @@
                 dragObj.shiftY = dragObj.downY - coords.top;
                 startDrag();
                 var currImgSizes = getSizes(dragObj.elementImg);
-                if (currImgSizes.width !== prevImgSizes.width ||
-                    currImgSizes.height !== prevImgSizes.height) {
+                if (currImgSizes.width !== prevImgSizes.width || currImgSizes.height !== prevImgSizes.height) {
                     dragObj.shiftX += (currImgSizes.width - prevImgSizes.width) / 2;
                     dragObj.shiftY += (currImgSizes.height - prevImgSizes.height) / 2;
                 }
@@ -671,27 +658,24 @@
         document.addEventListener('mousedown', onMouseDown);
         document.addEventListener('mousemove', onMouseMove);
         document.addEventListener('mouseup', onMouseUp);
-    };
+    }();
 
     /**
     * @param {string} url
     * @param {Function} callback
     */
     function loadJSON(url, callback) {
-        fetch(url)
-            .then(response => {
-                if (response.status >= 200 && response.status < 300) {
-                    return Promise.resolve(response.json());
-                } else {
-                    return Promise.reject(new Error(response.statusText));
-                }
-            })
-            .then(data => {
-                callback(data);
-            })
-            .catch(error => {
-                console.log("Failed", error);
-            });
+        fetch(url).then(function (response) {
+            if (response.status >= 200 && response.status < 300) {
+                return Promise.resolve(response.json());
+            } else {
+                return Promise.reject(new Error(response.statusText));
+            }
+        }).then(function (data) {
+            callback(data);
+        })['catch'](function (error) {
+            console.log("Failed", error);
+        });
     }
 
     function initEvents() {
@@ -718,10 +702,9 @@
             event.preventDefault();
             var elementsInFormula = formula.getRenderedElements();
             formula.clearContainer();
-            elementsInFormula.filter(item => {
+            elementsInFormula.filter(function (item) {
                 return item.classList.contains('element');
-            })
-            .forEach(item => {
+            }).forEach(function (item) {
                 library.addElement(item);
             });
             if (!filter.isFilterInputClear()) {
@@ -737,7 +720,8 @@
     * @returns {boolean}
     */
     function isFirefox() {
-        return /Firefox/i.test(navigator.userAgent);
+        return (/Firefox/i.test(navigator.userAgent)
+        );
     }
 
     initEvents();
@@ -748,3 +732,4 @@
     formula.loadInfo('formulas.json');
     var filter = new Filter();
 })();
+//# sourceMappingURL=cauldron.js.map
