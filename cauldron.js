@@ -36,7 +36,7 @@
         * remove all child elements
         */
         clearContainer: function () {
-            while (this._container.firstChild) {
+            while (!this.isContainerClear()) {
                 this.removeElement(this._container.firstChild);
             }
         },
@@ -122,7 +122,7 @@
         */
         Library.prototype.isElementsScrolled = function () {
             var transformY = this._container.style.transform.match(/-?\d+/);
-            return transformY ? true : false;
+            return Boolean(transformY);
         };
         Library.prototype.resetScrollElements = function () {
             this._container.style.transform = 'translateY(0px)';
@@ -141,13 +141,12 @@
         * @returns {string|null}
         */
         Library.prototype.getUrlByName = function (name) {
-            var i = 0;
-            for (; i < this._elements.length; i++) {
+            for (var i = 0; i < this._elements.length; i++) {
                 if (this._elements[i].name === name) {
                     break;
                 }
             }
-            return this._elements[i].url ? this._elements[i].url : null;
+            return this._elements[i].url || null;
         };
         /**
         * @param {HTMLElement} element
@@ -340,7 +339,7 @@
             var elem = new Element(resultName);
             formulaRes.setResultElement(elem.getElementNode());
             var url = library.getUrlByName(resultName);
-            elem.loadImg(url, false);
+            elem.loadImg(url);
         };
 
         var instance;
@@ -427,15 +426,12 @@
         this._elementImg = this._element.querySelector('img');
         this._elementName.textContent = newName;
         this._element.dataset.element = newName;
-        this._onElementImgClick = this._onElementImgClick.bind(this);
     };
     Element.prototype = {
         /**
         * @param {string} url
-        * @param {boolean} addEvent
         */
-        loadImg: function (url, addEvent) {
-            addEvent = (typeof addEvent === 'undefined') ? true : addEvent;
+        loadImg: function (url) {
             var img = new Image();
             img.src = url;
             img.classList.add('element__img');
@@ -443,15 +439,9 @@
             img.addEventListener('load', () => {
                 this._element.replaceChild(img, this._elementImg);
                 this._elementImg = img;
-                if (addEvent) {
-                    this._elementImg.addEventListener('click', this._onElementImgClick);
-                }
             });
             img.addEventListener('error', () => {
                 this._elementImg.classList.add('element__img', 'img-load-failure');
-                if (addEvent) {
-                    this._elementImg.addEventListener('click', this._onElementImgClick);
-                }
             });
         },
         /**
@@ -459,20 +449,6 @@
         */
         getElementNode: function () {
             return this._element;
-        },
-        /**
-        * @param {Event} event
-        * @private
-        */
-        _onElementImgClick: function (event) {
-            event.preventDefault();
-            if (isFirefox() && this._element.classList.contains('noclick')) {
-                this._element.classList.remove('noclick');
-                return;
-            }
-            var imgClickEvent = new CustomEvent('imgElementClick',
-                { detail: { element: this._element } });
-            window.dispatchEvent(imgClickEvent);
         }
     };
 
@@ -776,6 +752,43 @@
                 library.highlightElements();
             }
         });
+
+        window.addEventListener('click', function (event) {
+            event.preventDefault();
+            if (!doesHaveParents(event.target, ['element__img', 'library__elements']) &&
+                !doesHaveParents(event.target, ['element__img', 'workspace__formula'])) {
+                return;
+            }
+
+            var parent = event.target.parentElement;
+            if (isFirefox() && parent.classList.contains('noclick')) {
+                parent.classList.remove('noclick');
+                return;
+            }
+            var imgClickEvent = new CustomEvent('imgElementClick',
+                { detail: { element: parent } });
+            window.dispatchEvent(imgClickEvent);
+        });
+    }
+
+    /**
+    * Check if element and his parent have all classes from classNamesArr
+    * @param {HTMLElement} element
+    * @param {Array} classNamesArr
+    * @returns {boolean}
+    */
+    function doesHaveParents(element, classNamesArr) {
+        if (!classNamesArr) {
+            return false;
+        }
+        var className = classNamesArr.shift();
+        do {
+            if (element.classList.contains(className)) {
+                return classNamesArr.length ? doesHaveParents(element, classNamesArr) : true;
+            }
+            element = element.parentElement;
+        } while (element);
+        return false;
     }
 
     /**
