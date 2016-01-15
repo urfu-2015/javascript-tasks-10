@@ -75,7 +75,6 @@
         var Library = function () {
             this._container = document.querySelector('.library__elements');
             this._elements = [];
-            this._timer = null;
             this._onMouseWheel = this._onMouseWheel.bind(this);
         };
         /**
@@ -83,145 +82,143 @@
         */
         Library.prototype = Object.create(Common.prototype);
         Library.prototype.constructor = Library;
-        /**
-        * @param {string} jsonUrl
-        */
-        Library.prototype.loadInfo = function (jsonUrl) {
-            loadJSON(jsonUrl, function (loadedElements) {
-                this._elements = loadedElements;
-                this.renderElements();
-                var mousewheelEvt = isFirefox() ? 'DOMMouseScroll' :
-                    'mousewheel';
-                this._container.addEventListener(mousewheelEvt, this._onMouseWheel);
-            }.bind(this));
-        };
-        /**
-        * Render all elements with inLibrary flag
-        */
-        Library.prototype.renderElements = function () {
-            var elementsFragment = document.createDocumentFragment();
-            this._elements
-                .filter(item => item.inLibrary)
-                .sort((a, b) => {
-                    if (a.name > b.name) {
-                        return 1;
-                    } else if (a.name < b.name) {
-                        return -1;
-                    }
-                    return 0;
-                })
-                .forEach(item => {
-                    var elem = new Element(item.name);
-                    elementsFragment.appendChild(elem.getElementNode());
-                    elem.loadImg(item.url);
-                });
-            this._container.appendChild(elementsFragment);
-        };
-        /**
-        * @returns {boolean}
-        */
-        Library.prototype.isElementsScrolled = function () {
-            var transformY = this._container.style.transform.match(/-?\d+/);
-            return Boolean(transformY);
-        };
-        Library.prototype.resetScrollElements = function () {
-            this._container.style.transform = 'translateY(0px)';
-        };
-        /**
-        * @param {number} displacement
-        */
-        Library.prototype.scrollElements = function (displacement) {
-            var transformY = this._container.style.transform.match(/-?\d+/);
-            displacement = transformY ? Number(transformY[0]) + displacement : displacement;
-            this._container.style.transform = 'translateY(' + displacement + 'px)';
-        };
-        /**
-        * Find url on element which has got a name in func argument
-        * @param {string} name
-        * @returns {string|null}
-        */
-        Library.prototype.getUrlByName = function (name) {
-            for (var i = 0; i < this._elements.length; i++) {
-                if (this._elements[i].name === name) {
-                    break;
-                }
-            }
-            return this._elements[i].url || null;
-        };
-        /**
-        * @param {HTMLElement} element
-        */
-        Library.prototype.addElement = function (element) {
-            var renderedElements = this.getRenderedElements();
-            var i = 0;
-            while (renderedElements.length > i &&
-                renderedElements[i].dataset.element < element.dataset.element) {
-                i++;
-            }
-            this._container.insertBefore(element, renderedElements[i]);
-        };
-        /**
-        * Highlight name of the elements which match to the filter input
-        */
-        Library.prototype.highlightElements = function () {
-            var filterVal = filter.getFilterValue();
-            var regExp = new RegExp('^(' + filterVal + ')', 'gi');
-            var renderedElements = this.getRenderedElements();
-            renderedElements.forEach(item => {
-                if (!(item.dataset.element.search(regExp) + 1)) {
-                    item.classList.add('hidden');
-                } else {
-                    item.classList.remove('hidden');
-                    var elementName = item.querySelector('.element__name');
-                    elementName.innerHTML = filterVal.length ?
-                        elementName.textContent.replace(regExp, '<b>$1</b>') :
-                        elementName.textContent;
-                }
-            });
-        };
-        /**
-        * @returns {number}
-        */
-        Library.prototype.getElementHeight = function () {
-            var renderedElements = this.getRenderedElements();
-            renderedElements = renderedElements.filter(item => !item.classList.contains('hidden'));
-            return renderedElements[0].offsetHeight;
-        };
-        /**
-        * Event handler of mouse wheel
-        * @param {Event} event
-        * @private
-        */
-        Library.prototype._onMouseWheel = function (event) {
-            var elementHeight = this.getElementHeight();
-            var maxTop = filter.getHeight();
-            var libraryClientRect = this._container.getBoundingClientRect();
-            var delta = event.detail ? event.detail * (-120) : event.wheelDelta;
 
-            clearTimeout(this._timer);
-            this._timer = delta > 0 ?
-                setTimeout(function () {
+        var library = {
+            /**
+            * @param {string} jsonUrl
+            */
+            loadInfo: function (jsonUrl) {
+                loadJSON(jsonUrl, function (loadedElements) {
+                    this._elements = loadedElements;
+                    this.renderElements();
+                    var mousewheelEvt = isFirefox() ? 'DOMMouseScroll' :
+                        'mousewheel';
+                    this._container.addEventListener(mousewheelEvt, this._onMouseWheel);
+                }.bind(this));
+            },
+            /**
+            * Render all elements with inLibrary flag
+            */
+            renderElements: function () {
+                var elementsFragment = document.createDocumentFragment();
+                this._elements
+                    .filter(item => item.inLibrary)
+                    .sort((a, b) => {
+                        return a.name > b.name ? 1 : -1;
+                    })
+                    .forEach(item => {
+                        var elem = new Element(item.name);
+                        elementsFragment.appendChild(elem.getElementNode());
+                        elem.loadImg(item.url);
+                    });
+                this._container.appendChild(elementsFragment);
+            },
+            /**
+            *
+            * @returns {Array|{index: number, input: string}|null}
+            */
+            getStyleTranslateY: function () {
+                return this._container.style.transform.match(/-?\d+/);
+            },
+            resetScrollElements: function () {
+                this._container.style.transform = 'translateY(0px)';
+            },
+            /**
+            * @param {number} displacement
+            */
+            scrollElements: function (displacement) {
+                var translateY = this.getStyleTranslateY();
+                displacement = translateY ? Number(translateY[0]) + displacement : displacement;
+                this._container.style.transform = 'translateY(' + displacement + 'px)';
+            },
+            /**
+            * Find url on element which has got a name in func argument
+            * @param {string} name
+            * @returns {string|null}
+            */
+            getUrlByName: function (name) {
+                for (var i = 0; i < this._elements.length; i++) {
+                    if (this._elements[i].name === name) {
+                        break;
+                    }
+                }
+                return this._elements[i].url || null;
+            },
+            /**
+            * @param {HTMLElement} element
+            */
+            addElement: function (element) {
+                var renderedElements = this.getRenderedElements();
+                var i = 0;
+                while (renderedElements.length > i &&
+                    renderedElements[i].dataset.element < element.dataset.element) {
+                    i++;
+                }
+                this._container.insertBefore(element, renderedElements[i]);
+            },
+            /**
+            * Highlight name of the elements which match to the filter input
+            */
+            highlightElements: function () {
+                var filterVal = filter.getFilterValue();
+                var regExp = new RegExp('^(' + filterVal + ')', 'gi');
+                var renderedElements = this.getRenderedElements();
+                renderedElements.forEach(item => {
+                    if (!(item.dataset.element.search(regExp) + 1)) {
+                        item.classList.add('hidden');
+                    } else {
+                        item.classList.remove('hidden');
+                        var elementName = item.querySelector('.element__name');
+                        elementName.innerHTML = filterVal.length ?
+                            elementName.textContent.replace(regExp, '<b>$1</b>') :
+                            elementName.textContent;
+                    }
+                });
+            },
+            /**
+            * @returns {number}
+            */
+            getElementHeight: function () {
+                var renderedElements = this.getRenderedElements();
+                renderedElements = renderedElements.filter(item =>
+                    !item.classList.contains('hidden'));
+                return renderedElements[0].offsetHeight;
+            },
+            /**
+            * Event handler of mouse wheel
+            * @param {Event} event
+            * @private
+            */
+            _onMouseWheel: function (event) {
+                var elementHeight = this.getElementHeight();
+                var maxTop = filter.getHeight();
+                var libraryClientRect = this._container.getBoundingClientRect();
+                var delta = event.detail ? event.detail * (-SCROLL_SIZE) : event.wheelDelta;
+
+                if (delta > 0) {
                     if (maxTop <= libraryClientRect.top) {
                         return;
                     }
                     maxTop > libraryClientRect.top + elementHeight ?
                         this.scrollElements(elementHeight) :
                         this.scrollElements(maxTop - libraryClientRect.top);
-                }.bind(this), 66) :
-                setTimeout(function () {
-                    if (window.innerHeight >= libraryClientRect.bottom) {
-                        return;
-                    }
-                    window.innerHeight < libraryClientRect.bottom - elementHeight ?
-                        this.scrollElements(-elementHeight) :
-                        this.scrollElements(window.innerHeight - libraryClientRect.bottom);
-                }.bind(this), 66);
+                    return;
+                }
+                if (window.innerHeight >= libraryClientRect.bottom) {
+                    return;
+                }
+                window.innerHeight < libraryClientRect.bottom - elementHeight ?
+                    this.scrollElements(-elementHeight) :
+                    this.scrollElements(window.innerHeight - libraryClientRect.bottom);
+            }
         };
+
+        assignIn(Library.prototype, library);
 
         var instance;
         return {
             getInstance: function () {
-                if (instance === undefined) {
+                if (!instance) {
                     instance = new Library();
                 }
                 return instance;
@@ -238,6 +235,7 @@
         */
         var Formula = function () {
             this._container = document.querySelector('.workspace__formula');
+            this._minFormulaLength = Infinity;
             this._formulas = [];
         };
         /**
@@ -245,107 +243,122 @@
         */
         Formula.prototype = Object.create(Common.prototype);
         Formula.prototype.constructor = Formula;
-        /**
-        * @param {string} jsonUrl
-        */
-        Formula.prototype.loadInfo = function (jsonUrl) {
-            loadJSON(jsonUrl, function (loadedFormulas) {
-                this._formulas = loadedFormulas;
-            }.bind(this));
-        };
-        /**
-        * @param {HTMLElement} element
-        */
-        Formula.prototype.addElement = function (element) {
-            if (!this._container.childElementCount) {
+
+        var formula = {
+            /**
+            * @param {string} jsonUrl
+            */
+            loadInfo: function (jsonUrl) {
+                loadJSON(jsonUrl, function (loadedFormulas) {
+                    this._formulas = loadedFormulas;
+                    loadedFormulas.forEach(item => {
+                        this._minFormulaLength = Math.min(this._minFormulaLength,
+                            item.elements.length);
+                    });
+                }.bind(this));
+            },
+            /**
+            * @param {HTMLElement} element
+            */
+            addElement: function (element) {
+                if (!this._container.childElementCount) {
+                    Common.prototype.addElement.call(this, element);
+                    this.calculate();
+                    return;
+                }
+                var plus = document.createElement('span');
+                plus.classList.add('workspace__formula-plus');
+                Common.prototype.addElement.call(this, plus);
                 Common.prototype.addElement.call(this, element);
                 this.calculate();
-                return;
-            }
-            var plus = document.createElement('span');
-            plus.classList.add('workspace__formula-plus');
-            Common.prototype.addElement.call(this, plus);
-            Common.prototype.addElement.call(this, element);
-            this.calculate();
-        };
-        /**
-        * @param {HTMLElement} element
-        */
-        Formula.prototype.removeElement = function (element) {
-            if (this._container.childElementCount < 2) {
-                Common.prototype.removeElement.call(this, element);
-                this.calculate();
-                return;
-            }
-            Common.prototype.removeElement.call(this, element);
-            this.removeRedundantPluses();
-        };
-        /**
-        * Remove spare pluses between elements or on the edges
-        */
-        Formula.prototype.removeRedundantPluses = function () {
-            var pluses = this.getRenderedElements();
-            pluses
-                .filter(item => item.classList.contains('workspace__formula-plus'))
-                .forEach(item => {
-                    if (item === this._container.firstElementChild ||
-                        item === this._container.lastElementChild ||
-                        item.className === item.nextElementSibling.className) {
-                        this._container.removeChild(item);
-                    }
-                });
-            this.calculate();
-        };
-        /**
-        * Calculate formula and display the result
-        */
-        Formula.prototype.calculate = function () {
-            var elementsNames = this.getNamesRenderedElements('element');
-
-            if (this.isContainerClear() || elementsNames.length < 2) {
-                formulaRes.clearContainer();
-                formulaRes.reset();
-                return;
-            }
-
-            var formulas = this._formulas
-                .filter(item => item.elements.length === elementsNames.length)
-                .sort((a, b) => {
-                    if (a.elements.length > b.elements.length) {
-                        return -1;
-                    } else if (a.elements.length < b.elements.length) {
-                        return 1;
-                    }
-                    return 0;
-                });
-
-            var resultName = null;
-            for (var i = 0; i < formulas.length; i++) {
-                var answ = elementsNames.every(item => {
-                    return Boolean(formulas[i].elements.indexOf(item) + 1);
-                });
-                if (answ) {
-                    resultName = formulas[i].result;
-                    break;
+            },
+            /**
+            * @param {HTMLElement} element
+            */
+            removeElement: function (element) {
+                if (this._container.childElementCount < 2) {
+                    Common.prototype.removeElement.call(this, element);
+                    this.calculate();
+                    return;
                 }
-            }
+                Common.prototype.removeElement.call(this, element);
+                this.removeRedundantPluses();
+            },
+            /**
+            * Remove spare pluses between elements or on the edges
+            */
+            removeRedundantPluses: function () {
+                var pluses = this.getRenderedElements();
+                pluses
+                    .filter(item => item.classList.contains('workspace__formula-plus'))
+                    .forEach(item => {
+                        if (item === this._container.firstElementChild ||
+                            item === this._container.lastElementChild ||
+                            item.className === item.nextElementSibling.className) {
+                            this._container.removeChild(item);
+                        }
+                    });
+                this.calculate();
+            },
+            /**
+            * Calculate formula and display the result
+            */
+            calculate: function () {
+                var elementsNames = this.getNamesRenderedElements('element');
+                if (elementsNames.length < this._minFormulaLength) {
+                    this.resetFormulaResult();
+                    return;
+                }
 
-            if (!resultName) {
+                var formulas = this.getAppropriateFormulas(elementsNames.length);
+                var resultName = null;
+                for (var i = 0; i < formulas.length; i++) {
+                    var answ = elementsNames.every(item => {
+                        return formulas[i].elements.indexOf(item) + 1;
+                    });
+                    if (answ) {
+                        resultName = formulas[i].result;
+                        break;
+                    }
+                }
+
+                if (!resultName) {
+                    this.resetFormulaResult();
+                    return;
+                }
+
+                this.setFormulaResult(resultName);
+            },
+            /**
+            * @param {string} elementName
+            */
+            setFormulaResult: function (elementName) {
+                var elem = new Element(elementName);
+                formulaRes.setResultElement(elem.getElementNode());
+                var url = library.getUrlByName(elementName);
+                elem.loadImg(url);
+            },
+            /**
+            *
+            * @param formulaLength
+            * @returns {Array|Array.<Object>}
+            */
+            getAppropriateFormulas: function (formulaLength) {
+                return this._formulas
+                    .filter(item => item.elements.length === formulaLength);
+            },
+            resetFormulaResult: function () {
                 formulaRes.clearContainer();
                 formulaRes.reset();
-                return;
             }
-
-            var elem = new Element(resultName);
-            formulaRes.setResultElement(elem.getElementNode());
-            var url = library.getUrlByName(resultName);
-            elem.loadImg(url);
         };
+
+        assignIn(Formula.prototype, formula);
 
         var instance;
         return {
             getInstance: function () {
-                if (instance === undefined) {
+                if (!instance) {
                     instance = new Formula();
                 }
                 return instance;
@@ -369,45 +382,50 @@
         */
         FormulaResult.prototype = Object.create(Common.prototype);
         FormulaResult.prototype.constructor = FormulaResult;
-        /**
-        * Come back to default
-        */
-        FormulaResult.prototype.reset = function () {
-            this._resultElement = null;
-        };
-        /**
-        * @returns {HTMLElement|null}
-        */
-        FormulaResult.prototype.getResultElement = function () {
-            return this._resultElement;
-        };
-        /**
-        * @param {HTMLElement} element
-        */
-        FormulaResult.prototype.setResultElement = function (element) {
-            if (!this.getResultElement()) {
-                this.addElement(element);
-            } else {
-                this._container.replaceChild(element, this._resultElement);
+
+        var formulaResult = {
+            /**
+            * Come back to default
+            */
+            reset: function () {
+                this._resultElement = null;
+            },
+            /**
+            * @returns {HTMLElement|null}
+            */
+            getResultElement: function () {
+                return this._resultElement;
+            },
+            /**
+            * @param {HTMLElement} element
+            */
+            setResultElement: function (element) {
+                if (!this.getResultElement()) {
+                    this.addElement(element);
+                } else {
+                    this._container.replaceChild(element, this._resultElement);
+                }
+                this._resultElement = element;
+            },
+            /**
+            * @param {HTMLElement} element
+            */
+            addElement: function (element) {
+                if (this.isContainerClear()) {
+                    var arrow = document.createElement('span');
+                    arrow.classList.add('workspace__result-arrow');
+                    Common.prototype.addElement.call(this, arrow);
+                }
+                Common.prototype.addElement.call(this, element);
             }
-            this._resultElement = element;
         };
-        /**
-        * @param {HTMLElement} element
-        */
-        FormulaResult.prototype.addElement = function (element) {
-            if (this.isContainerClear()) {
-                var arrow = document.createElement('span');
-                arrow.classList.add('workspace__result-arrow');
-                Common.prototype.addElement.call(this, arrow);
-            }
-            Common.prototype.addElement.call(this, element);
-        };
+
+        assignIn(FormulaResult.prototype, formulaResult);
 
         var instance;
         return {
             getInstance: function () {
-                if (instance === undefined) {
+                if (!instance) {
                     instance = new FormulaResult();
                 }
                 return instance;
@@ -495,7 +513,8 @@
             _onInputEnterText: function () {
                 this._filterInput.value.length ? this._filterClear.classList.remove('hidden') :
                     this._filterClear.classList.add('hidden');
-                if (library.isElementsScrolled()) {
+                var libraryTranslateY = library.getStyleTranslateY();
+                if (libraryTranslateY && Number(libraryTranslateY[0]) !== 0) {
                     library.resetScrollElements();
                 }
                 library.highlightElements();
@@ -515,7 +534,7 @@
         var instance;
         return {
             getInstance: function () {
-                if (instance === undefined) {
+                if (!instance) {
                     instance = new Filter();
                 }
                 return instance;
@@ -801,7 +820,24 @@
         return /Firefox/i.test(navigator.userAgent);
     }
 
+
+    /**
+    * @param {Object} object
+    * @param {Object} source
+    * @returns {Object}
+    */
+    function assignIn(object, source) {
+        var props = Object.keys(source);
+        while (props.length) {
+            var key = props.shift();
+            object[key] = source[key];
+        }
+        return object;
+    }
+
+
     initEvents();
+    var SCROLL_SIZE = 120;
     var library = singletonLibrary.getInstance();
     var formula = singletonFormula.getInstance();
     var formulaRes = singletonFormulaResult.getInstance();
