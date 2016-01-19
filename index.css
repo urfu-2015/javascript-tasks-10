@@ -1,1 +1,278 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,900);
 
+@font-face
+{
+    font-family: FontAwesome;
+    src: url('font/fontawesome-webfont.woff2') format('woff2'),
+        url('font/fontawesome-webfont.woff') format('woff'),
+        url('font/fontawesome-webfont.ttf') format('ttf');
+    font-style: normal;
+    font-weight: normal;
+}
+
+html
+{
+    min-height: 100vh;
+    font-size: 10px;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+*,
+*::before,
+*::after
+{
+    box-sizing: inherit;
+}
+
+body
+{
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    font: 14px/1.5 Roboto, Helvetica, Arial, sans-serif;
+    color: #000;
+}
+
+.hidden
+{
+    display: none !important;
+}
+
+.wrapper
+{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    background-image: url('img/workspace-background.png');
+}
+
+.btn
+{
+    border: 0;
+    padding: 0;
+    outline: none;
+}
+
+.filter
+{
+    display: flex;
+    margin: 10px 0 20px 25px;
+    background: #f7f1e7 url('img/library-background.png');
+}
+
+.filter__input
+{
+    height: 30px;
+    width: 200px;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.filter__clear
+{
+    position: relative;
+    left: -25px;
+    width: 20px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.filter__clear::before
+{
+    content: '\f00d';
+    font-family: FontAwesome, sans-serif;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2.5rem;
+    cursor: pointer;
+    color: #ccc;
+    z-index: 1;
+    transition: .3s color ease-in-out;
+}
+
+.filter__clear:hover::before
+{
+    color: #000;
+}
+
+.library
+{
+    flex: 0 0 250px;
+    display: flex;
+    flex-direction: column;
+    background: #f7f1e7 url('img/library-background.png');
+}
+
+.library__wrapper
+{
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.library__elements
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding-left: 25px;
+}
+
+.element
+{
+    display: flex;
+    align-items: center;
+    padding: 5px 0;
+}
+
+.element--drag
+{
+    flex-direction: column;
+    z-index: 100;
+}
+
+.element__img
+{
+    width: 50px;
+    height: 50px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.element__img--drag
+{
+    width: 74px;
+    height: 74px;
+    margin: 0;
+}
+
+.element__name
+{
+    color: #938671;
+}
+
+.img-load-failure
+{
+    background: #000;
+    position: relative;
+}
+
+.img-load-failure::before
+{
+    content: '\f00d';
+    font-family: FontAwesome, sans-serif;
+    position: absolute;
+    color: #fff;
+    font-size: 3rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+
+.workspace
+{
+    position: relative;
+    flex: 1 1 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.workspace__formula
+{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.workspace__formula .element,
+.workspace__result .element
+{
+    flex-direction: column;
+}
+
+.workspace__formula .element__img,
+.workspace__result .element__img
+{
+    width: 74px;
+    height: 74px;
+    margin: 0;
+}
+
+.workspace__formula-plus
+{
+    position: relative;
+    width: 30px;
+    height: 40px;
+    margin: 0 15px;
+}
+
+.workspace__formula-plus::before
+{
+    content: '\f067';
+    font-family: FontAwesome, sans-serif;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    font-size: 4rem;
+    line-height: 1;
+    color: #32cd32;
+    z-index: 1;
+}
+
+.workspace__result
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px 0 0;
+}
+
+.workspace__result-arrow
+{
+    position: relative;
+    width: 20px;
+    height: 50px;
+}
+
+.workspace__result-arrow::before
+{
+    content: '\f175';
+    font-family: FontAwesome, sans-serif;
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 5rem;
+    line-height: 1;
+    color: #32cd32;
+    z-index: 1;
+}
+
+.workspace__clear
+{
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    width: 35px;
+    height: 33px;
+    background: url('img/clear.png');
+    cursor: pointer;
+    transition: .3s transform ease-in-out, .1s opacity;
+}
+
+.workspace__clear:hover
+{
+    transform: scale(1.3);
+}
+
+.workspace__clear:active
+{
+    opacity: 0;
+}

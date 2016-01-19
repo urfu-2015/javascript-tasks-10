@@ -1,0 +1,127 @@
+[
+    {
+        "name": "earth",
+        "url": "img/earth.png",
+        "inLibrary": true
+    },
+    {
+        "name": "air",
+        "url": "img/air.png",
+        "inLibrary": true
+    },
+    {
+        "name": "dust",
+        "url": "img/dust.png",
+        "inLibrary": true
+    },
+    {
+        "name": "swamp",
+        "url": "img/swamp.png",
+        "inLibrary": true
+    },
+    {
+        "name": "energy",
+        "url": "img/energy.png",
+        "inLibrary": true
+    },
+    {
+        "name": "stone",
+        "url": "img/stone.png",
+        "inLibrary": true
+    },
+    {
+        "name": "life",
+        "url": "img/life.png",
+        "inLibrary": true
+    },
+    {
+        "name": "milk",
+        "url": "img/milk.png",
+        "inLibrary": true
+    },
+    {
+        "name": "sourcream",
+        "url": "img/sourcream.png",
+        "inLibrary": true
+    },
+    {
+        "name": "fire",
+        "url": "img/fire.png",
+        "inLibrary": true
+    },
+    {
+        "name": "water",
+        "url": "img/water.png",
+        "inLibrary": true
+    },
+    {
+        "name": "firewater",
+        "url": "img/firewater.png",
+        "inLibrary": false
+    },
+    {
+        "name": "lava",
+        "url": "img/lava.png",
+        "inLibrary": false
+    },
+    {
+        "name": "steam",
+        "url": "img/steam.png",
+        "inLibrary": false
+    },
+    {
+        "name": "ash",
+        "url": "img/ash.png",
+        "inLibrary": false
+    },
+    {
+        "name": "plasma",
+        "url": "img/plasma.png",
+        "inLibrary": false
+    },
+    {
+        "name": "storm",
+        "url": "img/storm.png",
+        "inLibrary": false
+    },
+    {
+        "name": "bacteria",
+        "url": "img/bacteria.png",
+        "inLibrary": false
+    },
+    {
+        "name": "egg",
+        "url": "img/egg.png",
+        "inLibrary": false
+    },
+    {
+        "name": "ghost",
+        "url": "img/ghost.png",
+        "inLibrary": false
+    },
+    {
+        "name": "metal",
+        "url": "img/metal.png",
+        "inLibrary": false
+    },
+    {
+        "name": "sand",
+        "url": "img/sand.png",
+        "inLibrary": false
+    },
+    {
+        "name": "grass",
+        "url": "img/grass.png",
+        "inLibrary": false
+    },
+    {
+        "name": "bird",
+        "url": "img/bird.png",
+        "inLibrary": false
+    },
+    {
+        "name": "cat",
+        "url": "img/cat.png",
+        "inLibrary": false
+    }
+]

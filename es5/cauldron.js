@@ -11,31 +11,31 @@
         * @param {HTMLElement} element
         * @returns {boolean}
         */
-        isElementWithin: function (element) {
+        isElementWithin: function isElementWithin(element) {
             return this._container === element.parentElement;
         },
         /**
         * @returns {boolean}
         */
-        isContainerClear: function () {
+        isContainerClear: function isContainerClear() {
             return this._container.firstChild === null;
         },
         /**
         * @param {HTMLElement} element
         */
-        addElement: function (element) {
+        addElement: function addElement(element) {
             this._container.appendChild(element);
         },
         /**
         * @param {HTMLElement} element
         */
-        removeElement: function (element) {
+        removeElement: function removeElement(element) {
             this._container.removeChild(element);
         },
         /**
         * remove all child elements
         */
-        clearContainer: function () {
+        clearContainer: function clearContainer() {
             while (!this.isContainerClear()) {
                 this.removeElement(this._container.firstChild);
             }
@@ -43,23 +43,23 @@
         /**
         * @returns {Array.<HTMLElement>}
         */
-        getRenderedElements: function () {
+        getRenderedElements: function getRenderedElements() {
             return [].slice.apply(this._container.children);
         },
         /**
         * @param {string} className
         * @returns {Array.<string>}
         */
-        getNamesRenderedElements: function (className) {
+        getNamesRenderedElements: function getNamesRenderedElements(className) {
             if (this.isContainerClear()) {
                 return [];
             }
             var renderedElements = this.getRenderedElements();
-            var names = renderedElements
-                .filter(item => {
-                    return item.classList.contains(className);
-                })
-                .map(item => item.dataset.element);
+            var names = renderedElements.filter(function (item) {
+                return item.classList.contains(className);
+            }).map(function (item) {
+                return item.dataset.element;
+            });
             return names;
         }
     };
@@ -72,7 +72,7 @@
         * List of available alchemical elements
         * @constructor
         */
-        var Library = function () {
+        var Library = function Library() {
             this._container = document.querySelector('.library__elements');
             this._elements = [];
             this._onMouseWheel = this._onMouseWheel.bind(this);
@@ -87,46 +87,44 @@
             /**
             * @param {string} jsonUrl
             */
-            loadInfo: function (jsonUrl) {
-                loadJSON(jsonUrl, function (loadedElements) {
+            loadInfo: function loadInfo(jsonUrl) {
+                loadJSON(jsonUrl, (function (loadedElements) {
                     this._elements = loadedElements;
                     this.renderElements();
-                    var mousewheelEvt = isFirefox() ? 'DOMMouseScroll' :
-                        'mousewheel';
+                    var mousewheelEvt = isFirefox() ? 'DOMMouseScroll' : 'mousewheel';
                     this._container.addEventListener(mousewheelEvt, this._onMouseWheel);
-                }.bind(this));
+                }).bind(this));
             },
             /**
             * Render all elements with inLibrary flag
             */
-            renderElements: function () {
+            renderElements: function renderElements() {
                 var elementsFragment = document.createDocumentFragment();
-                this._elements
-                    .filter(item => item.inLibrary)
-                    .sort((a, b) => {
-                        return a.name > b.name ? 1 : -1;
-                    })
-                    .forEach(item => {
-                        var elem = new Element(item.name);
-                        elementsFragment.appendChild(elem.getElementNode());
-                        elem.loadImg(item.url);
-                    });
+                this._elements.filter(function (item) {
+                    return item.inLibrary;
+                }).sort(function (a, b) {
+                    return a.name > b.name ? 1 : -1;
+                }).forEach(function (item) {
+                    var elem = new Element(item.name);
+                    elementsFragment.appendChild(elem.getElementNode());
+                    elem.loadImg(item.url);
+                });
                 this._container.appendChild(elementsFragment);
             },
             /**
             *
             * @returns {Array|{index: number, input: string}|null}
             */
-            getStyleTranslateY: function () {
+            getStyleTranslateY: function getStyleTranslateY() {
                 return this._container.style.transform.match(/-?\d+/);
             },
-            resetScrollElements: function () {
+            resetScrollElements: function resetScrollElements() {
                 this._container.style.transform = 'translateY(0px)';
             },
             /**
             * @param {number} displacement
             */
-            scrollElements: function (displacement) {
+            scrollElements: function scrollElements(displacement) {
                 var translateY = this.getStyleTranslateY();
                 displacement = translateY ? Number(translateY[0]) + displacement : displacement;
                 this._container.style.transform = 'translateY(' + displacement + 'px)';
@@ -136,7 +134,7 @@
             * @param {string} name
             * @returns {string|null}
             */
-            getUrlByName: function (name) {
+            getUrlByName: function getUrlByName(name) {
                 for (var i = 0; i < this._elements.length; i++) {
                     if (this._elements[i].name === name) {
                         break;
@@ -147,11 +145,10 @@
             /**
             * @param {HTMLElement} element
             */
-            addElement: function (element) {
+            addElement: function addElement(element) {
                 var renderedElements = this.getRenderedElements();
                 var i = 0;
-                while (renderedElements.length > i &&
-                    renderedElements[i].dataset.element < element.dataset.element) {
+                while (renderedElements.length > i && renderedElements[i].dataset.element < element.dataset.element) {
                     i++;
                 }
                 this._container.insertBefore(element, renderedElements[i]);
@@ -159,29 +156,28 @@
             /**
             * Highlight name of the elements which match to the filter input
             */
-            highlightElements: function () {
+            highlightElements: function highlightElements() {
                 var filterVal = filter.getFilterValue();
                 var regExp = new RegExp('^(' + filterVal + ')', 'gi');
                 var renderedElements = this.getRenderedElements();
-                renderedElements.forEach(item => {
+                renderedElements.forEach(function (item) {
                     if (!(item.dataset.element.search(regExp) + 1)) {
                         item.classList.add('hidden');
                     } else {
                         item.classList.remove('hidden');
                         var elementName = item.querySelector('.element__name');
-                        elementName.innerHTML = filterVal.length ?
-                            elementName.textContent.replace(regExp, '<b>$1</b>') :
-                            elementName.textContent;
+                        elementName.innerHTML = filterVal.length ? elementName.textContent.replace(regExp, '<b>$1</b>') : elementName.textContent;
                     }
                 });
             },
             /**
             * @returns {number}
             */
-            getElementHeight: function () {
+            getElementHeight: function getElementHeight() {
                 var renderedElements = this.getRenderedElements();
-                renderedElements = renderedElements.filter(item =>
-                    !item.classList.contains('hidden'));
+                renderedElements = renderedElements.filter(function (item) {
+                    return !item.classList.contains('hidden');
+                });
                 return renderedElements[0].offsetHeight;
             },
             /**
@@ -189,27 +185,23 @@
             * @param {Event} event
             * @private
             */
-            _onMouseWheel: function (event) {
+            _onMouseWheel: function _onMouseWheel(event) {
                 var elementHeight = this.getElementHeight();
                 var maxTop = filter.getHeight();
                 var libraryClientRect = this._container.getBoundingClientRect();
-                var delta = event.detail ? event.detail * (-SCROLL_SIZE) : event.wheelDelta;
+                var delta = event.detail ? event.detail * -SCROLL_SIZE : event.wheelDelta;
 
                 if (delta > 0) {
                     if (maxTop <= libraryClientRect.top) {
                         return;
                     }
-                    maxTop > libraryClientRect.top + elementHeight ?
-                        this.scrollElements(elementHeight) :
-                        this.scrollElements(maxTop - libraryClientRect.top);
+                    maxTop > libraryClientRect.top + elementHeight ? this.scrollElements(elementHeight) : this.scrollElements(maxTop - libraryClientRect.top);
                     return;
                 }
                 if (window.innerHeight >= libraryClientRect.bottom) {
                     return;
                 }
-                window.innerHeight < libraryClientRect.bottom - elementHeight ?
-                    this.scrollElements(-elementHeight) :
-                    this.scrollElements(window.innerHeight - libraryClientRect.bottom);
+                window.innerHeight < libraryClientRect.bottom - elementHeight ? this.scrollElements(-elementHeight) : this.scrollElements(window.innerHeight - libraryClientRect.bottom);
             }
         };
 
@@ -217,7 +209,7 @@
 
         var instance;
         return {
-            getInstance: function () {
+            getInstance: function getInstance() {
                 if (!instance) {
                     instance = new Library();
                 }
@@ -233,7 +225,7 @@
         /**
         * @constructor
         */
-        var Formula = function () {
+        var Formula = function Formula() {
             this._container = document.querySelector('.workspace__formula');
             this._minFormulaLength = Infinity;
             this._formulas = [];
@@ -248,19 +240,20 @@
             /**
             * @param {string} jsonUrl
             */
-            loadInfo: function (jsonUrl) {
-                loadJSON(jsonUrl, function (loadedFormulas) {
+            loadInfo: function loadInfo(jsonUrl) {
+                loadJSON(jsonUrl, (function (loadedFormulas) {
+                    var _this = this;
+
                     this._formulas = loadedFormulas;
-                    loadedFormulas.forEach(item => {
-                        this._minFormulaLength = Math.min(this._minFormulaLength,
-                            item.elements.length);
+                    loadedFormulas.forEach(function (item) {
+                        _this._minFormulaLength = Math.min(_this._minFormulaLength, item.elements.length);
                     });
-                }.bind(this));
+                }).bind(this));
             },
             /**
             * @param {HTMLElement} element
             */
-            addElement: function (element) {
+            addElement: function addElement(element) {
                 if (!this._container.childElementCount) {
                     Common.prototype.addElement.call(this, element);
                     this.calculate();
@@ -275,7 +268,7 @@
             /**
             * @param {HTMLElement} element
             */
-            removeElement: function (element) {
+            removeElement: function removeElement(element) {
                 if (this._container.childElementCount < 2) {
                     Common.prototype.removeElement.call(this, element);
                     this.calculate();
@@ -287,23 +280,23 @@
             /**
             * Remove spare pluses between elements or on the edges
             */
-            removeRedundantPluses: function () {
+            removeRedundantPluses: function removeRedundantPluses() {
+                var _this2 = this;
+
                 var pluses = this.getRenderedElements();
-                pluses
-                    .filter(item => item.classList.contains('workspace__formula-plus'))
-                    .forEach(item => {
-                        if (item === this._container.firstElementChild ||
-                            item === this._container.lastElementChild ||
-                            item.className === item.nextElementSibling.className) {
-                            this._container.removeChild(item);
-                        }
-                    });
+                pluses.filter(function (item) {
+                    return item.classList.contains('workspace__formula-plus');
+                }).forEach(function (item) {
+                    if (item === _this2._container.firstElementChild || item === _this2._container.lastElementChild || item.className === item.nextElementSibling.className) {
+                        _this2._container.removeChild(item);
+                    }
+                });
                 this.calculate();
             },
             /**
             * Calculate formula and display the result
             */
-            calculate: function () {
+            calculate: function calculate() {
                 var elementsNames = this.getNamesRenderedElements('element');
                 if (elementsNames.length < this._minFormulaLength) {
                     this.resetFormulaResult();
@@ -313,7 +306,7 @@
                 var formulas = this.getAppropriateFormulas(elementsNames.length);
                 var resultName = null;
                 for (var i = 0; i < formulas.length; i++) {
-                    var answ = elementsNames.every(item => {
+                    var answ = elementsNames.every(function (item) {
                         return formulas[i].elements.indexOf(item) + 1;
                     });
                     if (answ) {
@@ -332,7 +325,7 @@
             /**
             * @param {string} elementName
             */
-            setFormulaResult: function (elementName) {
+            setFormulaResult: function setFormulaResult(elementName) {
                 var elem = new Element(elementName);
                 formulaRes.setResultElement(elem.getElementNode());
                 var url = library.getUrlByName(elementName);
@@ -343,11 +336,12 @@
             * @param formulaLength
             * @returns {Array|Array.<Object>}
             */
-            getAppropriateFormulas: function (formulaLength) {
-                return this._formulas
-                    .filter(item => item.elements.length === formulaLength);
+            getAppropriateFormulas: function getAppropriateFormulas(formulaLength) {
+                return this._formulas.filter(function (item) {
+                    return item.elements.length === formulaLength;
+                });
             },
-            resetFormulaResult: function () {
+            resetFormulaResult: function resetFormulaResult() {
                 formulaRes.clearContainer();
                 formulaRes.reset();
             }
@@ -357,7 +351,7 @@
 
         var instance;
         return {
-            getInstance: function () {
+            getInstance: function getInstance() {
                 if (!instance) {
                     instance = new Formula();
                 }
@@ -373,7 +367,7 @@
         /**
         * @constructor
         */
-        var FormulaResult = function () {
+        var FormulaResult = function FormulaResult() {
             this._container = document.querySelector('.workspace__result');
             this._resultElement = null;
         };
@@ -387,19 +381,19 @@
             /**
             * Come back to default
             */
-            reset: function () {
+            reset: function reset() {
                 this._resultElement = null;
             },
             /**
             * @returns {HTMLElement|null}
             */
-            getResultElement: function () {
+            getResultElement: function getResultElement() {
                 return this._resultElement;
             },
             /**
             * @param {HTMLElement} element
             */
-            setResultElement: function (element) {
+            setResultElement: function setResultElement(element) {
                 if (!this.getResultElement()) {
                     this.addElement(element);
                 } else {
@@ -410,7 +404,7 @@
             /**
             * @param {HTMLElement} element
             */
-            addElement: function (element) {
+            addElement: function addElement(element) {
                 if (this.isContainerClear()) {
                     var arrow = document.createElement('span');
                     arrow.classList.add('workspace__result-arrow');
@@ -424,7 +418,7 @@
 
         var instance;
         return {
-            getInstance: function () {
+            getInstance: function getInstance() {
                 if (!instance) {
                     instance = new FormulaResult();
                 }
@@ -437,7 +431,7 @@
     * @param {string} newName
     * @constructor
     */
-    var Element = function (newName) {
+    var Element = function Element(newName) {
         this._elementTemplate = document.getElementById('element-template');
         this._element = this._elementTemplate.content.children[0].cloneNode(true);
         this._elementName = this._element.querySelector('.element__name');
@@ -449,23 +443,25 @@
         /**
         * @param {string} url
         */
-        loadImg: function (url) {
+        loadImg: function loadImg(url) {
+            var _this3 = this;
+
             var img = new Image();
             img.src = url;
             img.classList.add('element__img');
 
-            img.addEventListener('load', () => {
-                this._element.replaceChild(img, this._elementImg);
-                this._elementImg = img;
+            img.addEventListener('load', function () {
+                _this3._element.replaceChild(img, _this3._elementImg);
+                _this3._elementImg = img;
             });
-            img.addEventListener('error', () => {
-                this._elementImg.classList.add('element__img', 'img-load-failure');
+            img.addEventListener('error', function () {
+                _this3._elementImg.classList.add('element__img', 'img-load-failure');
             });
         },
         /**
         * @returns {HTMLElement}
         */
-        getElementNode: function () {
+        getElementNode: function getElementNode() {
             return this._element;
         }
     };
@@ -477,7 +473,7 @@
         /**
         * @constructor
         */
-        var Filter = function () {
+        var Filter = function Filter() {
             this._filterInput = document.getElementById('filter');
             this._filterClear = document.querySelector('.filter__clear');
             this._onInputEnterText = this._onInputEnterText.bind(this);
@@ -489,7 +485,7 @@
             /**
             * @returns {number}
             */
-            getHeight: function () {
+            getHeight: function getHeight() {
                 var styles = window.getComputedStyle(this._filterInput.parentElement);
                 var margin = parseInt(styles.marginTop) + parseInt(styles.marginBottom);
                 return this._filterInput.offsetHeight + margin;
@@ -497,22 +493,21 @@
             /**
             * @returns {string}
             */
-            getFilterValue: function () {
+            getFilterValue: function getFilterValue() {
                 return this._filterInput.value;
             },
             /**
             * @returns {boolean}
             */
-            isFilterInputClear: function () {
+            isFilterInputClear: function isFilterInputClear() {
                 return !this._filterInput.value.length;
             },
             /**
             * Event handler of input any symbol in input area
             * @private
             */
-            _onInputEnterText: function () {
-                this._filterInput.value.length ? this._filterClear.classList.remove('hidden') :
-                    this._filterClear.classList.add('hidden');
+            _onInputEnterText: function _onInputEnterText() {
+                this._filterInput.value.length ? this._filterClear.classList.remove('hidden') : this._filterClear.classList.add('hidden');
                 var libraryTranslateY = library.getStyleTranslateY();
                 if (libraryTranslateY && Number(libraryTranslateY[0]) !== 0) {
                     library.resetScrollElements();
@@ -524,7 +519,7 @@
             * @param {Event} event
             * @private
             */
-            _onClearClick: function (event) {
+            _onClearClick: function _onClearClick(event) {
                 event.preventDefault();
                 this._filterInput.value = '';
                 this._filterInput.dispatchEvent(new Event('input'));
@@ -533,7 +528,7 @@
 
         var instance;
         return {
-            getInstance: function () {
+            getInstance: function getInstance() {
                 if (!instance) {
                     instance = new Filter();
                 }
@@ -587,8 +582,7 @@
                 dragObj.shiftY = dragObj.downY - coords.top;
                 startDrag();
                 var currImgSizes = getSizes(dragObj.elementImg);
-                if (currImgSizes.width !== prevImgSizes.width ||
-                    currImgSizes.height !== prevImgSizes.height) {
+                if (currImgSizes.width !== prevImgSizes.width || currImgSizes.height !== prevImgSizes.height) {
                     dragObj.shiftX += (currImgSizes.width - prevImgSizes.width) / 2;
                     dragObj.shiftY += (currImgSizes.height - prevImgSizes.height) / 2;
                 }
@@ -714,27 +708,24 @@
         document.addEventListener('mousedown', onMouseDown);
         document.addEventListener('mousemove', onMouseMove);
         document.addEventListener('mouseup', onMouseUp);
-    };
+    }();
 
     /**
     * @param {string} url
     * @param {Function} callback
     */
     function loadJSON(url, callback) {
-        fetch(url)
-            .then(response => {
-                if (response.status >= 200 && response.status < 300) {
-                    return Promise.resolve(response.json());
-                } else {
-                    return Promise.reject(new Error(response.statusText));
-                }
-            })
-            .then(data => {
-                callback(data);
-            })
-            .catch(error => {
-                console.log("Failed", error);
-            });
+        fetch(url).then(function (response) {
+            if (response.status >= 200 && response.status < 300) {
+                return Promise.resolve(response.json());
+            } else {
+                return Promise.reject(new Error(response.statusText));
+            }
+        }).then(function (data) {
+            callback(data);
+        })['catch'](function (error) {
+            console.log("Failed", error);
+        });
     }
 
     function initEvents() {
@@ -761,10 +752,9 @@
             event.preventDefault();
             var elementsInFormula = formula.getRenderedElements();
             formula.clearContainer();
-            elementsInFormula.filter(item => {
+            elementsInFormula.filter(function (item) {
                 return item.classList.contains('element');
-            })
-            .forEach(item => {
+            }).forEach(function (item) {
                 library.addElement(item);
             });
             if (!filter.isFilterInputClear()) {
@@ -774,8 +764,7 @@
 
         window.addEventListener('click', function (event) {
             event.preventDefault();
-            if (!doesHaveParents(event.target, ['element__img', 'library__elements']) &&
-                !doesHaveParents(event.target, ['element__img', 'workspace__formula'])) {
+            if (!doesHaveParents(event.target, ['element__img', 'library__elements']) && !doesHaveParents(event.target, ['element__img', 'workspace__formula'])) {
                 return;
             }
 
@@ -784,8 +773,7 @@
                 parent.classList.remove('noclick');
                 return;
             }
-            var imgClickEvent = new CustomEvent('imgElementClick',
-                { detail: { element: parent } });
+            var imgClickEvent = new CustomEvent('imgElementClick', { detail: { element: parent } });
             window.dispatchEvent(imgClickEvent);
         });
     }
@@ -796,18 +784,34 @@
     * @param {Array} classNamesArr
     * @returns {boolean}
     */
-    function doesHaveParents(element, classNamesArr) {
-        if (!classNamesArr) {
+    function doesHaveParents(_x, _x2) {
+        var _again = true;
+
+        _function: while (_again) {
+            var element = _x,
+                classNamesArr = _x2;
+            className = undefined;
+            _again = false;
+
+            if (!classNamesArr) {
+                return false;
+            }
+            var className = classNamesArr.shift();
+            do {
+                if (element.classList.contains(className)) {
+                    if (classNamesArr.length) {
+                        _x = element;
+                        _x2 = classNamesArr;
+                        _again = true;
+                        continue _function;
+                    } else {
+                        return true;
+                    }
+                }
+                element = element.parentElement;
+            } while (element);
             return false;
         }
-        var className = classNamesArr.shift();
-        do {
-            if (element.classList.contains(className)) {
-                return classNamesArr.length ? doesHaveParents(element, classNamesArr) : true;
-            }
-            element = element.parentElement;
-        } while (element);
-        return false;
     }
 
     /**
@@ -817,9 +821,9 @@
     * @returns {boolean}
     */
     function isFirefox() {
-        return /Firefox/i.test(navigator.userAgent);
+        return (/Firefox/i.test(navigator.userAgent)
+        );
     }
-
 
     /**
     * @param {Object} object
@@ -835,7 +839,6 @@
         return object;
     }
 
-
     initEvents();
     var SCROLL_SIZE = 120;
     var library = singletonLibrary.getInstance();
@@ -845,3 +848,4 @@
     formula.loadInfo('formulas.json');
     var filter = singletonFilter.getInstance();
 })();
+//# sourceMappingURL=cauldron.js.map

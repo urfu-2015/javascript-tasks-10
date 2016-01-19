@@ -6,48 +6,35 @@
         <link rel="stylesheet" href="index.css">
     </head>
     <body>
-        <!-- Пример вёрстки котла для экспериментов-->
-        <table>
-            <thead>
-                <tr>
-                    <th>
-                        <!-- Поле для фильтрации алхимических элементов -->
-                        <input>
-                    </th>
-                    <th>
-                        <!-- Результат смешивания в котле – новый элемент -->
-                        <span>Пар</span>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <!-- Список доступных элементов (два мы уже положили в котёл)-->
-                        <ul>
-                            <li data-element="earth">земля</li>
-                            <li data-element="air">воздух</li>
-                            <li data-element="dust">пыль</li>
-                            <li data-element="swamp">болото</li>
-                            <li data-element="energy">энергия</li>
-                            <li data-element="stone">камень</li>
-                            <li data-element="life">жизнь</li>
-                            <li data-element="milk">молоко</li>
-                            <li data-element="sourcream">сметанка</li>
-                        </ul>
-                    </td>
-                    <td>
-                        <!-- Элементы в котле для смешивания -->
-                        <ul>
-                            <li data-element="fire">огонь</li>
-                            <li data-element="water">вода</li>
-                        </ul>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="wrapper">
+            <div class="library">
+                <div class="filter">
+                    <input id="filter" class="filter__input" name="elements-filter" type="text"
+                        placeholder="The name of the element">
+                    <button class="filter__clear btn hidden" title="Clear the text box"></button>
+                </div>
+                <div class="library__wrapper">
+                    <div class="library__elements"></div>
+                </div>
 
-        <script src="formulas.js"></script>
-        <script src="cauldron.js"></script>
+            </div>
+            <div class="workspace">
+                <div class="workspace__formula"></div>
+                <div class="workspace__result"></div>
+                <div class="workspace__cauldron">
+                    <img src="img/cauldron.png" alt="Котел" width="160" height="160">
+                </div>
+                <button class="workspace__clear btn" title="Remove all elements from the cauldron"></button>
+            </div>
+        </div>
+
+        <template id="element-template">
+            <div data-element="" class="element">
+                <img src="">
+                <span class="element__name"></span>
+            </div>
+        </template>
+
+        <script src="es5/cauldron.js"></script>
     </body>
 </html>

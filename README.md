@@ -1,3 +1,5 @@
+# <a href="http://dudagod.github.io/javascript-tasks-10/" target="_blank">Демо</a>
+
 # Задача к лекции «DOM и события» – «Котёл алхимика»
 
 ### Общие требования
